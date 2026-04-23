@@ -1,0 +1,299 @@
+{
+  "key": "group_site_settings",
+  "title": "Site Settings",
+  "fields": [
+    {
+      "key": "field_tab_brand",
+      "label": "Thương hiệu",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_site_name",
+      "label": "Tên công ty",
+      "name": "site_name",
+      "type": "text",
+      "required": 1,
+      "placeholder": "Tên công ty / thương hiệu"
+    },
+    {
+      "key": "field_site_tagline",
+      "label": "Tagline",
+      "name": "site_tagline",
+      "type": "text",
+      "placeholder": "Slogan / dòng phụ"
+    },
+    {
+      "key": "field_site_description",
+      "label": "Mô tả trang web",
+      "name": "site_description",
+      "type": "textarea",
+      "rows": 3,
+      "instructions": "Dùng làm meta description mặc định (tối đa 160 ký tự)"
+    },
+    {
+      "key": "field_site_logo",
+      "label": "Logo",
+      "name": "site_logo",
+      "type": "image",
+      "return_format": "array",
+      "preview_size": "medium",
+      "instructions": "PNG/SVG nền trong. Kích thước khuyến nghị: 300x90px"
+    },
+    {
+      "key": "field_site_favicon",
+      "label": "Favicon",
+      "name": "site_favicon",
+      "type": "image",
+      "return_format": "array",
+      "preview_size": "thumbnail",
+      "instructions": "Kích thước: 32x32px hoặc 64x64px"
+    },
+    {
+      "key": "field_tab_colors",
+      "label": "Màu sắc & Font",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_primary_color",
+      "label": "Màu chủ đạo",
+      "name": "primary_color",
+      "type": "color_picker",
+      "default_value": "#E8753A",
+      "enable_opacity": 0,
+      "instructions": "Màu chính dùng cho button, link, accent"
+    },
+    {
+      "key": "field_primary_light_color",
+      "label": "Màu chủ đạo (nhạt)",
+      "name": "primary_light_color",
+      "type": "color_picker",
+      "default_value": "#F4A96A"
+    },
+    {
+      "key": "field_primary_pale_color",
+      "label": "Màu nền nhạt",
+      "name": "primary_pale_color",
+      "type": "color_picker",
+      "default_value": "#FDF0E7",
+      "instructions": "Dùng làm background nhẹ, hover state"
+    },
+    {
+      "key": "field_dark_color",
+      "label": "Màu tối (Dark)",
+      "name": "dark_color",
+      "type": "color_picker",
+      "default_value": "#1A1A2E",
+      "instructions": "Dùng cho header, footer, dark sections"
+    },
+    {
+      "key": "field_heading_font",
+      "label": "Font tiêu đề",
+      "name": "heading_font",
+      "type": "select",
+      "choices": {
+        "Playfair Display": "Playfair Display — Luật, Tài chính",
+        "Be Vietnam Pro": "Be Vietnam Pro — Phổ thông",
+        "Inter": "Inter — Công nghệ, SaaS",
+        "DM Sans": "DM Sans — Y tế, Wellness",
+        "Cormorant Garamond": "Cormorant Garamond — Bất động sản cao cấp",
+        "Nunito": "Nunito — Giáo dục",
+        "Lora": "Lora — Nhà hàng, F&B"
+      },
+      "default_value": "Playfair Display",
+      "allow_null": 0,
+      "return_format": "value"
+    },
+    {
+      "key": "field_body_font",
+      "label": "Font nội dung",
+      "name": "body_font",
+      "type": "select",
+      "choices": {
+        "Be Vietnam Pro": "Be Vietnam Pro",
+        "Inter": "Inter",
+        "DM Sans": "DM Sans",
+        "Raleway": "Raleway",
+        "Nunito": "Nunito",
+        "Lato": "Lato"
+      },
+      "default_value": "Be Vietnam Pro",
+      "allow_null": 0,
+      "return_format": "value"
+    },
+    {
+      "key": "field_tab_contact",
+      "label": "Liên hệ",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_phone",
+      "label": "Số điện thoại",
+      "name": "phone",
+      "type": "text",
+      "placeholder": "0123 456 789"
+    },
+    {
+      "key": "field_hotline",
+      "label": "Hotline (nổi bật trên topbar)",
+      "name": "hotline",
+      "type": "text",
+      "placeholder": "1900 xxxx",
+      "instructions": "Để trống nếu không có hotline riêng"
+    },
+    {
+      "key": "field_email",
+      "label": "Email",
+      "name": "email",
+      "type": "email",
+      "placeholder": "info@congty.vn"
+    },
+    {
+      "key": "field_address",
+      "label": "Địa chỉ",
+      "name": "address",
+      "type": "text",
+      "placeholder": "123 Đường ABC, Quận 1, TP.HCM"
+    },
+    {
+      "key": "field_working_hours",
+      "label": "Giờ làm việc",
+      "name": "working_hours",
+      "type": "text",
+      "default_value": "T2–T6, 8:00–17:30"
+    },
+    {
+      "key": "field_zalo_link",
+      "label": "Link Zalo",
+      "name": "zalo_link",
+      "type": "url",
+      "placeholder": "https://zalo.me/0123456789"
+    },
+    {
+      "key": "field_facebook_link",
+      "label": "Link Facebook",
+      "name": "facebook_link",
+      "type": "url",
+      "placeholder": "https://facebook.com/page-name"
+    },
+    {
+      "key": "field_youtube_link",
+      "label": "Link YouTube",
+      "name": "youtube_link",
+      "type": "url"
+    },
+    {
+      "key": "field_linkedin_link",
+      "label": "Link LinkedIn",
+      "name": "linkedin_link",
+      "type": "url"
+    },
+    {
+      "key": "field_tab_header",
+      "label": "Header",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_topbar_enabled",
+      "label": "Hiển thị Topbar",
+      "name": "topbar_enabled",
+      "type": "true_false",
+      "default_value": 1,
+      "ui": 1,
+      "instructions": "Thanh thông tin nhỏ phía trên header (địa chỉ, hotline)"
+    },
+    {
+      "key": "field_topbar_text",
+      "label": "Nội dung Topbar tùy chỉnh",
+      "name": "topbar_text",
+      "type": "text",
+      "placeholder": "🎉 Ưu đãi tháng 12 — Giảm 30% dịch vụ",
+      "instructions": "Để trống để hiển thị địa chỉ và email mặc định"
+    },
+    {
+      "key": "field_tab_footer",
+      "label": "Footer",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_footer_about",
+      "label": "Giới thiệu ngắn (Footer)",
+      "name": "footer_about",
+      "type": "textarea",
+      "rows": 3,
+      "placeholder": "Mô tả ngắn về công ty, hiển thị ở cột đầu footer"
+    },
+    {
+      "key": "field_footer_copyright",
+      "label": "Copyright",
+      "name": "footer_copyright",
+      "type": "text",
+      "placeholder": "© 2024 Tên Công Ty. All rights reserved.",
+      "instructions": "Để trống để tự động điền theo năm hiện tại"
+    },
+    {
+      "key": "field_tab_scripts",
+      "label": "Scripts & Tracking",
+      "name": "",
+      "type": "tab",
+      "placement": "top"
+    },
+    {
+      "key": "field_google_analytics_id",
+      "label": "Google Analytics ID (GA4)",
+      "name": "google_analytics_id",
+      "type": "text",
+      "placeholder": "G-XXXXXXXXXX",
+      "instructions": "Chỉ điền nếu KHÔNG dùng GTM"
+    },
+    {
+      "key": "field_google_tag_manager_id",
+      "label": "Google Tag Manager ID",
+      "name": "google_tag_manager_id",
+      "type": "text",
+      "placeholder": "GTM-XXXXXXX",
+      "instructions": "Nếu dùng GTM thì không cần điền GA4 ID riêng"
+    },
+    {
+      "key": "field_head_scripts",
+      "label": "Custom Scripts (trước </head>)",
+      "name": "head_scripts",
+      "type": "textarea",
+      "rows": 5,
+      "instructions": "Nhúng Facebook Pixel, Hotjar, hoặc script tùy chỉnh. KHÔNG bao gồm thẻ <script>."
+    },
+    {
+      "key": "field_body_scripts",
+      "label": "Custom Scripts (trước </body>)",
+      "name": "body_scripts",
+      "type": "textarea",
+      "rows": 5,
+      "instructions": "Script chạy cuối trang"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "options_page",
+        "operator": "==",
+        "value": "site-settings"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "_instructions": "Import file này vào ACF: Custom Fields > Tools > Import Field Groups"
+}
