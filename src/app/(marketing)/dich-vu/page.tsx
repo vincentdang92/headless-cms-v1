@@ -2,21 +2,21 @@ import type { Metadata } from 'next'
 import { getFlexiblePage } from '@/lib/wordpress'
 import { getSiteSettings } from '@/lib/site-settings'
 import { DEFAULT_SITE_SETTINGS } from '@/config/defaults'
-import { LAW_ABOUT_FALLBACK } from '@/templates/law/fallback-about'
+import { LAW_SERVICES_FALLBACK } from '@/templates/law/fallback-services'
 import BlockRenderer from '@/blocks/BlockRenderer'
 
 export const metadata: Metadata = {
-  title: 'Giới thiệu',
-  description: 'Hơn 10 năm đồng hành cùng doanh nghiệp Việt Nam trong hành trình thành lập và phát triển bền vững.',
+  title: 'Dịch vụ',
+  description: 'Toàn bộ dịch vụ pháp lý, kế toán thuế và bảo hộ thương hiệu — trọn gói, minh bạch, nhanh chóng.',
 }
 
-export default async function GioiThieuPage() {
+export default async function DichVuPage() {
   const [blocks, settings] = await Promise.all([
-    getFlexiblePage('gioi-thieu').catch(() => null),
+    getFlexiblePage('dich-vu').catch(() => null),
     getSiteSettings().catch(() => null),
   ])
 
-  const content = blocks ?? LAW_ABOUT_FALLBACK
+  const content = blocks ?? LAW_SERVICES_FALLBACK
   const siteSettings = settings ?? DEFAULT_SITE_SETTINGS
 
   return <BlockRenderer blocks={content} settings={siteSettings} />

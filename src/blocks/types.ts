@@ -126,6 +126,32 @@ export interface ContactBlock {
   dark_background: boolean
 }
 
+export interface TimelineBlock {
+  acf_fc_layout: 'timeline'
+  section_label: string
+  section_title: string
+  section_desc: string
+  dark_background: boolean
+  milestones: Array<{
+    year: string
+    title: string
+    description: string
+  }>
+}
+
+export interface ValuesBlock {
+  acf_fc_layout: 'values_grid'
+  section_label: string
+  section_title: string
+  section_desc: string
+  dark_background: boolean
+  values: Array<{
+    icon: string
+    title: string
+    description: string
+  }>
+}
+
 // ─── Union type ────────────────────────────────────────────────────────────
 
 export type FlexibleBlock =
@@ -139,5 +165,7 @@ export type FlexibleBlock =
   | FaqBlock
   | CtaBlock
   | ContactBlock
+  | TimelineBlock
+  | ValuesBlock
 
 export type FlexibleContent = FlexibleBlock[]

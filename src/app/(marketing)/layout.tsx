@@ -8,6 +8,15 @@ import type { NavItem } from '@/components/layout/Header'
 const DEFAULT_NAV: NavItem[] = [
   { label: 'Trang chủ', href: '/' },
   { label: 'Giới thiệu', href: '/gioi-thieu' },
+  {
+    label: 'Dịch vụ',
+    href: '/dich-vu',
+    children: [
+      { label: 'Thành lập doanh nghiệp', href: '/dich-vu#thanh-lap' },
+      { label: 'Kế toán & Thuế', href: '/dich-vu#ke-toan' },
+      { label: 'Bảo hộ thương hiệu', href: '/dich-vu#thuong-hieu' },
+    ],
+  },
   { label: 'Tin tức', href: '/tin-tuc' },
   { label: 'Liên hệ', href: '/lien-he' },
 ]

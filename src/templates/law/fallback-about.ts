@@ -1,0 +1,85 @@
+import type { FlexibleContent } from '@/blocks/types'
+
+export const LAW_ABOUT_FALLBACK: FlexibleContent = [
+  {
+    acf_fc_layout: 'two_column',
+    layout: 'image_right',
+    dark_background: false,
+    section_label: 'Về Chúng Tôi',
+    section_title: 'Đối Tác Pháp Lý Tin Cậy Của Doanh Nghiệp Việt',
+    section_desc:
+      'Được thành lập năm 2014, chúng tôi đã đồng hành cùng hơn 500 doanh nghiệp trong hành trình thành lập, vận hành và phát triển bền vững tại Việt Nam.',
+    features: [
+      { title: 'Kinh nghiệm thực chiến', description: 'Hơn 10 năm xử lý hàng nghìn hồ sơ pháp lý phức tạp cho doanh nghiệp trong và ngoài nước.' },
+      { title: 'Đội ngũ chuyên sâu', description: '50+ luật sư và chuyên gia kế toán được đào tạo bài bản, cập nhật liên tục các quy định pháp luật mới nhất.' },
+      { title: 'Cam kết minh bạch', description: 'Báo giá trọn gói, không phát sinh chi phí ẩn. Tiến độ xử lý được cập nhật thường xuyên.' },
+      { title: 'Hỗ trợ sau dịch vụ', description: 'Tư vấn miễn phí 12 tháng sau khi hoàn thành hồ sơ — đối tác dài hạn, không chỉ là người cung cấp dịch vụ.' },
+    ],
+    badge_number: '500+',
+    badge_label: 'Doanh nghiệp thành lập',
+  },
+  {
+    acf_fc_layout: 'values_grid',
+    section_label: 'Giá Trị Cốt Lõi',
+    section_title: 'Những Giá Trị Chúng Tôi Theo Đuổi',
+    section_desc: 'Mỗi dịch vụ đều được thực hiện dựa trên 4 nguyên tắc không thay đổi',
+    dark_background: false,
+    values: [
+      { icon: '⚖️', title: 'Chính Trực', description: 'Tư vấn trung thực, khách quan — kể cả khi câu trả lời không phải là điều khách hàng muốn nghe.' },
+      { icon: '🎯', title: 'Chuyên Nghiệp', description: 'Quy trình làm việc bài bản, hồ sơ chuẩn xác, đúng tiến độ cam kết.' },
+      { icon: '🤝', title: 'Tận Tâm', description: 'Luôn đặt lợi ích của khách hàng lên hàng đầu, lắng nghe và đồng hành trong mọi tình huống.' },
+      { icon: '🔒', title: 'Bảo Mật', description: 'Thông tin và tài liệu của khách hàng được bảo mật tuyệt đối theo cam kết NDA.' },
+      { icon: '⚡', title: 'Nhanh Chóng', description: 'Cam kết hoàn thành hồ sơ trong thời gian ngắn nhất, xử lý linh hoạt mọi phát sinh.' },
+      { icon: '💡', title: 'Sáng Tạo', description: 'Tìm kiếm giải pháp tối ưu cho từng tình huống đặc thù, không áp dụng rập khuôn.' },
+    ],
+  },
+  {
+    acf_fc_layout: 'timeline',
+    section_label: 'Hành Trình Phát Triển',
+    section_title: 'Lịch Sử Hình Thành & Phát Triển',
+    section_desc: 'Từ một văn phòng nhỏ đến đơn vị pháp lý hàng đầu TP.HCM',
+    dark_background: true,
+    milestones: [
+      { year: '2014', title: 'Thành lập văn phòng', description: 'Khởi nghiệp với 3 luật sư và sứ mệnh giúp doanh nghiệp SME tiếp cận dịch vụ pháp lý chất lượng cao với chi phí hợp lý.' },
+      { year: '2016', title: 'Mở rộng lĩnh vực', description: 'Bổ sung dịch vụ kế toán thuế và bảo hộ thương hiệu, phục vụ hơn 100 doanh nghiệp đang hoạt động.' },
+      { year: '2018', title: 'Chứng nhận ISO 9001', description: 'Đạt chứng nhận ISO 9001:2015 về hệ thống quản lý chất lượng — đơn vị pháp lý đầu tiên tại TP.HCM đạt tiêu chuẩn này.' },
+      { year: '2020', title: 'Phục vụ FDI', description: 'Ra mắt bộ phận chuyên phục vụ doanh nghiệp vốn đầu tư nước ngoài (FDI), đối tác với 10+ đại sứ quán.' },
+      { year: '2022', title: 'Top 10 dịch vụ pháp lý', description: 'Được bình chọn Top 10 đơn vị tư vấn pháp lý doanh nghiệp uy tín nhất TP.HCM bởi Hiệp hội Doanh nghiệp.' },
+      { year: '2024', title: '500+ doanh nghiệp', description: 'Cột mốc 500 doanh nghiệp được thành lập thành công, mở thêm chi nhánh Hà Nội và Đà Nẵng.' },
+    ],
+  },
+  {
+    acf_fc_layout: 'team_grid',
+    section_label: 'Đội Ngũ Lãnh Đạo',
+    section_title: 'Những Chuyên Gia Đứng Sau Sự Thành Công',
+    section_desc: 'Đội ngũ có kinh nghiệm thực chiến, tâm huyết với sứ mệnh đồng hành cùng doanh nghiệp',
+    dark_background: false,
+    members: [
+      { name: 'Nguyễn Văn An', role: 'CEO & Luật sư trưởng', description: 'Hơn 18 năm kinh nghiệm tư vấn pháp lý doanh nghiệp, chuyên gia luật đầu tư nước ngoài' },
+      { name: 'Trần Thị Bích', role: 'Giám đốc Pháp lý', description: 'Chuyên gia về luật doanh nghiệp, M&A và tái cơ cấu doanh nghiệp' },
+      { name: 'Lê Minh Cường', role: 'Kế toán trưởng', description: 'Hơn 12 năm tư vấn thuế và tài chính, từng công tác tại Big4' },
+      { name: 'Phạm Thị Dung', role: 'Trưởng phòng SHTT', description: 'Chuyên gia sở hữu trí tuệ, đại diện sở hữu công nghiệp được cấp phép' },
+    ],
+  },
+  {
+    acf_fc_layout: 'testimonials',
+    section_label: 'Khách Hàng Nói Gì',
+    section_title: 'Câu Chuyện Thành Công',
+    dark_background: true,
+    testimonials: [
+      { quote: 'Chúng tôi thành lập công ty FDI trong vòng 5 ngày — nhanh hơn dự kiến 2 tuần. Đội ngũ tư vấn rất chuyên nghiệp và hỗ trợ tận tình từ đầu đến cuối.', author_name: 'Kim Sung-woo', author_company: 'CEO — Korea Tech VN', rating: 5 },
+      { quote: 'Từ khi sử dụng dịch vụ kế toán thuế trọn gói, chúng tôi không còn lo lắng về vấn đề pháp lý. Tiết kiệm được cả tiền lẫn thời gian để tập trung vào kinh doanh.', author_name: 'Nguyễn Minh Khoa', author_company: 'Giám đốc — Cty TNHH Phát Đạt', rating: 5 },
+      { quote: 'Đã đăng ký bảo hộ nhãn hiệu qua nhiều đơn vị khác không thành, tìm đến đây được giải quyết trong 8 tháng. Tỷ lệ thành công rất cao.', author_name: 'Lê Thị Hoa', author_company: 'Founder — Thương hiệu Hoa Việt', rating: 5 },
+    ],
+  },
+  {
+    acf_fc_layout: 'cta_banner',
+    headline: 'Bắt Đầu Hành Trình Cùng Chúng Tôi',
+    description: 'Hơn 500 doanh nghiệp đã tin tưởng. Đến lượt bạn — hãy liên hệ để nhận tư vấn miễn phí ngay hôm nay.',
+    cta_primary_text: 'Nhận Tư Vấn Miễn Phí',
+    cta_primary_link: '/lien-he',
+    cta_secondary_text: 'Xem Dịch Vụ',
+    cta_secondary_link: '/dich-vu',
+    dark_background: true,
+  },
+]

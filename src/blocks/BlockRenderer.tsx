@@ -10,6 +10,8 @@ import ClientsBlock from './ClientsBlock'
 import FaqBlock from './FaqBlock'
 import CtaBlock from './CtaBlock'
 import ContactBlock from './ContactBlock'
+import TimelineBlock from './TimelineBlock'
+import ValuesBlock from './ValuesBlock'
 
 interface Props {
   blocks: FlexibleBlock[]
@@ -43,6 +45,10 @@ export default function BlockRenderer({ blocks, settings }: Props) {
             return <CtaBlock key={key} block={block} />
           case 'contact_form':
             return <ContactBlock key={key} block={block} settings={settings} />
+          case 'timeline':
+            return <TimelineBlock key={key} block={block} />
+          case 'values_grid':
+            return <ValuesBlock key={key} block={block} />
           default:
             return null
         }
