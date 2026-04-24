@@ -59,6 +59,7 @@ export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
         youtubeLink: acf.youtube_link || '',
         twitterLink: acf.twitter_link || '',
         linkedinLink: acf.linkedin_link || '',
+        mapEmbedUrl: acf.map_embed_url || '',
       },
 
       topbar: {

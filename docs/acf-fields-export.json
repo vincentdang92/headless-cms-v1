@@ -194,6 +194,14 @@
       "type": "url"
     },
     {
+      "key": "field_map_embed_url",
+      "label": "Google Maps Embed URL",
+      "name": "map_embed_url",
+      "type": "url",
+      "placeholder": "https://www.google.com/maps/embed?pb=...",
+      "instructions": "Vào Google Maps → tìm địa chỉ → Share → Embed a map → copy phần src của thẻ <iframe>. Để trống nếu không cần bản đồ."
+    },
+    {
       "key": "field_tab_header",
       "label": "Header",
       "name": "",

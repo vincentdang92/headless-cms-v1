@@ -30,6 +30,7 @@ function useInputFocus() {
 
 export default function ContactBlock({ block, settings }: Props) {
   const { section_label, section_title, cf7_form_id, cf7_services } = block
+  const map_embed_url = block.map_embed_url || settings.contact.mapEmbedUrl
   const { contact, siteName } = settings
   const t = useTranslations('Contact')
 
@@ -292,6 +293,22 @@ export default function ContactBlock({ block, settings }: Props) {
           </div>
 
         </div>
+
+        {/* ── Google Maps ──────────────────────────────────────────────── */}
+        {map_embed_url && (
+          <div className="mt-10 rounded-2xl overflow-hidden" style={{ height: '360px' }}>
+            <iframe
+              src={map_embed_url}
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'grayscale(20%) contrast(1.05)' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Bản đồ"
+            />
+          </div>
+        )}
       </div>
     </section>
   )

@@ -23,6 +23,7 @@ export interface SiteContact {
   youtubeLink: string
   twitterLink: string
   linkedinLink: string
+  mapEmbedUrl: string
 }
 
 export interface SiteTopbar {

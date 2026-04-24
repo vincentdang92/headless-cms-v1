@@ -126,6 +126,7 @@ export interface ContactBlock {
   dark_background: boolean
   cf7_form_id?: number   // WP Contact Form 7 form ID — fallback to CF7_DEFAULT_FORM_ID env var
   cf7_services?: string  // Newline-separated list of service options to show in the select
+  map_embed_url?: string // Google Maps embed URL (iframe src) — set via ACF in WordPress
 }
 
 export interface TimelineBlock {

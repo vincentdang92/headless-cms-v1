@@ -25,6 +25,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     youtubeLink: '',
     twitterLink: '',
     linkedinLink: '',
+    mapEmbedUrl: '',
   },
   topbar: { enabled: true, text: '' },
   footer: {
