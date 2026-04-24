@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { getLocale } from 'next-intl/server'
 import { getSiteSettings, buildCssVariables, buildGoogleFontsUrl } from '@/lib/site-settings'
 import './globals.css'
 
@@ -19,7 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSiteSettings().catch(() => null)
+  const [settings, locale] = await Promise.all([
+    getSiteSettings().catch(() => null),
+    getLocale().catch(() => 'vi'),
+  ])
   const cssVars = settings ? buildCssVariables(settings) : ''
   const fontsUrl = settings
     ? buildGoogleFontsUrl(settings.headingFont, settings.bodyFont)
@@ -30,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const bodyScripts = settings?.scripts.bodyScripts
 
   return (
-    <html lang="vi" className="h-full antialiased">
+    <html lang={locale} className="h-full antialiased">
       <head>
         {/* Dynamic CSS variables từ ACF — đổi màu/font không cần deploy */}
         {cssVars && <style dangerouslySetInnerHTML={{ __html: cssVars }} />}

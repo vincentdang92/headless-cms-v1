@@ -10,12 +10,20 @@
 1. [Yêu cầu hệ thống](#1-yêu-cầu-hệ-thống)
 2. [Cài đặt WordPress](#2-cài-đặt-wordpress)
 3. [Cài đặt Plugins](#3-cài-đặt-plugins)
-4. [Cấu hình ACF Options Page](#4-cấu-hình-acf-options-page)
-5. [Cấu hình ACF Fields](#5-cấu-hình-acf-fields)
-6. [Cài đặt Next.js](#6-cài-đặt-nextjs)
-7. [Cấu hình Revalidation Webhook](#7-cấu-hình-revalidation-webhook)
-8. [Deploy](#8-deploy)
-9. [Đổi ngành / Preset](#9-đổi-ngành--preset)
+4. [Cấu hình Contact Form 7](#4-cấu-hình-contact-form-7)
+5. [Cấu hình ACF Options Page](#5-cấu-hình-acf-options-page)
+6. [Cấu hình ACF Fields](#6-cấu-hình-acf-fields)
+7. [Cài đặt Next.js](#7-cài-đặt-nextjs)
+8. [Cấu hình Revalidation Webhook](#8-cấu-hình-revalidation-webhook)
+9. [Deploy Frontend](#9-deploy-frontend)
+   - [9.1 Vercel](#91-vercel-khuyến-nghị--nhanh-nhất)
+   - [9.2 Shared Hosting cPanel Node.js](#92-shared-hosting-cpanel-có-nodejs-selector)
+   - [9.3 VPS + PM2 + Nginx](#93-vps-tự-quản-lý-pm2--nginx)
+   - [9.4 Coolify](#94-coolify-self-hosted-paas--khuyến-nghị-cho-vps)
+   - [9.5 Railway / Render](#95-railway--render-budget-friendly-paas)
+10. [Deploy WordPress (Backend)](#10-deploy-wordpress-backend)
+11. [Đổi ngành / Preset](#11-đổi-ngành--preset)
+12. [Cấu hình Song ngữ](#12-cấu-hình-song-ngữ)
 
 ---
 
@@ -32,61 +40,161 @@
 
 ## 2. Cài đặt WordPress
 
-### Local (XAMPP / Local by Flywheel / Laragon)
+### Local (XAMPP / LocalWP / Laragon)
 
-```bash
-# Hoặc dùng LocalWP: https://localwp.com/
-```
-
-Cài WordPress bình thường. Sau khi xong, truy cập **Settings > Permalinks** → chọn **Post name** → Save.
-
-```
-http://localhost:8888/wp-admin
-Settings > Permalinks > Post name → Save Changes
-```
+Cài WordPress bình thường. Sau khi xong, vào **Settings → Permalinks** → chọn **Post name** → Save.
 
 > **Quan trọng:** Phải đặt Permalink là Post name, nếu không REST API không hoạt động.
 
 ### VPS / Production
 
-Cài WordPress trên hosting, cấu hình tương tự. Đảm bảo domain WordPress được trỏ đúng.
+Cài WordPress trên hosting/VPS, cấu hình permalink tương tự. Đảm bảo domain WordPress được trỏ đúng.
 
 ---
 
 ## 3. Cài đặt Plugins
 
-Vào **Plugins > Add New** và cài các plugin sau:
+Vào **Plugins → Add New** và cài các plugin sau:
 
 ### Bắt buộc
 
-| Plugin | Mục đích | Link |
-|---|---|---|
-| **Advanced Custom Fields (ACF)** | Quản lý site settings (logo, màu, contact) | WordPress.org |
-| **WP Webhooks** | Tự động gọi webhook khi publish/update | WordPress.org |
+| Plugin | Mục đích |
+|---|---|
+| **Advanced Custom Fields (ACF)** | Quản lý site settings (logo, màu, contact info) |
+| **Contact Form 7** | Form liên hệ — expose REST API để Next.js submit |
+| **WP Webhooks** | Tự động gọi revalidation webhook khi publish/update |
 
 ### SEO (chọn 1 trong 2)
 
 | Plugin | Ghi chú |
 |---|---|
-| **Rank Math SEO** | Recommended — REST API tích hợp sẵn, không cần config thêm |
-| **Yoast SEO** | Phổ biến — REST API có sẵn qua `yoast_head_json` |
+| **Rank Math SEO** | Recommended — REST API tích hợp sẵn |
+| **Yoast SEO** | Phổ biến — REST API qua `yoast_head_json` |
+
+### Song ngữ (nếu cần)
+
+| Plugin | Mục đích |
+|---|---|
+| **Polylang** | Quản lý đa ngôn ngữ — expose nội dung dịch qua REST API `?lang=en` |
 
 ### Tùy chọn
 
 | Plugin | Mục đích |
 |---|---|
-| **WP-API-Menus** | Expose WordPress menus qua REST API (`/wp-json/wp/v2/menus`) |
+| **WP-API-Menus** | Expose WordPress menus qua REST API |
 | **JWT Auth WP** | Bảo mật REST API bằng JWT token |
 
 ---
 
-## 4. Cấu hình ACF Options Page
+## 4. Cấu hình Contact Form 7
 
-Thêm code sau vào `functions.php` của theme hoặc tạo plugin riêng:
+### 4.1 Tạo form
+
+Vào **Contact → Add New**, đặt tên form (ví dụ: "Form Tư Vấn"). Copy nội dung sau vào Form tab:
+
+```
+<div class="cf7-row">
+  <label>Họ và tên (bắt buộc)
+    [text* your-name placeholder "Nguyễn Văn A"]
+  </label>
+  <label>Số điện thoại (bắt buộc)
+    [tel* your-phone placeholder "0123 456 789"]
+  </label>
+</div>
+
+<label>Email
+  [email your-email placeholder "email@example.com"]
+</label>
+
+<label>Dịch vụ quan tâm
+  [select your-service "Tư vấn pháp lý" "Kế toán thuế" "Thành lập doanh nghiệp" "Bảo hộ thương hiệu" "Khác"]
+</label>
+
+<label>Nội dung (bắt buộc)
+  [textarea* your-message placeholder "Mô tả nhu cầu của bạn..."]
+</label>
+
+[submit "Gửi yêu cầu"]
+```
+
+> **Quan trọng:** Tên field (`your-name`, `your-phone`...) phải khớp chính xác với code. Không đổi tên.
+
+### 4.2 Các field name bắt buộc
+
+| Field name | Loại | Bắt buộc | Mô tả |
+|---|---|---|---|
+| `your-name` | text | ✓ | Họ và tên |
+| `your-phone` | tel | ✓ | Số điện thoại |
+| `your-email` | email | | Email |
+| `your-service` | select | | Dịch vụ quan tâm |
+| `your-message` | textarea | ✓ | Nội dung |
+
+### 4.3 Lấy Form ID
+
+Sau khi Save form, nhìn URL trong thanh địa chỉ:
+
+```
+https://cms.congty.vn/wp-admin/admin.php?page=wpcf7&action=edit&post=123
+                                                                      ^^^
+                                                                  Form ID = 123
+```
+
+Ghi lại số này để điền vào biến môi trường.
+
+### 4.4 Cấu hình email nhận
+
+Vào tab **Mail** trong form, chỉnh:
+- **To:** `your-email@congty.vn`
+- **Subject:** `[your-subject] Yêu cầu tư vấn từ [your-name]`
+- **Body:** điền template email như mong muốn
+
+### 4.5 Ghi vào biến môi trường
+
+```env
+CF7_DEFAULT_FORM_ID=123
+```
+
+### 4.6 Override per-block (tùy chọn)
+
+Nếu site có nhiều form khác nhau, trong ACF của block `contact_form`, thêm field:
+
+| Field Label | Field Name | Field Type |
+|---|---|---|
+| CF7 Form ID | `cf7_form_id` | Number |
+| Danh sách dịch vụ | `cf7_services` | Textarea |
+
+Field `cf7_services` nhập mỗi dịch vụ một dòng — sẽ ghi đè danh sách mặc định trong select.
+
+### 4.7 Test form
+
+```bash
+curl -X POST "http://localhost:3000/api/contact" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "formId": 123,
+    "fields": {
+      "your-name": "Test User",
+      "your-phone": "0123456789",
+      "your-email": "test@test.com",
+      "your-message": "Test message"
+    }
+  }'
+
+# Response thành công:
+# {"status":"mail_sent","message":"Thank you for your message..."}
+
+# Response lỗi validation:
+# {"status":"validation_failed","message":"...","invalid_fields":[...]}
+```
+
+---
+
+## 5. Cấu hình ACF Options Page
+
+Thêm code sau vào `functions.php` của theme (hoặc tạo plugin riêng):
 
 ```php
 <?php
-// Đăng ký ACF Options Page cho Site Settings
 if ( function_exists( 'acf_add_options_page' ) ) {
     acf_add_options_page( array(
         'page_title' => 'Cài Đặt Giao Diện',
@@ -99,21 +207,11 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 }
 ```
 
-Sau khi thêm, menu **Site Settings** sẽ xuất hiện trong sidebar WordPress.
-
-> Nếu dùng plugin thay vì functions.php, tạo file `/wp-content/plugins/headless-site-settings/headless-site-settings.php`
-
 ---
 
-## 5. Cấu hình ACF Fields
+## 6. Cấu hình ACF Fields
 
-Vào **Custom Fields > Field Groups > Add New**, tạo group tên **"Site Settings"** với location rule:
-
-```
-Options Page == Site Settings
-```
-
-Tạo các fields theo bảng sau:
+Vào **Custom Fields → Field Groups → Add New**, tạo group **"Site Settings"** với location rule `Options Page == Site Settings`.
 
 ### Tab: Thương hiệu
 
@@ -123,7 +221,7 @@ Tạo các fields theo bảng sau:
 | Tagline | `site_tagline` | Text | Dòng phụ dưới tên |
 | Logo | `site_logo` | Image | Return format: Array |
 | Favicon | `site_favicon` | Image | Return format: Array |
-| Mô tả trang web | `site_description` | Textarea | Dùng cho meta description mặc định |
+| Mô tả trang web | `site_description` | Textarea | Dùng cho meta description |
 
 ### Tab: Màu sắc & Font
 
@@ -185,7 +283,7 @@ Lora : Lora (Nhà hàng, F&B)
 
 ---
 
-## 6. Cài đặt Next.js
+## 7. Cài đặt Next.js
 
 ### Clone và cài dependencies
 
@@ -197,36 +295,17 @@ npm install
 
 ### Cấu hình biến môi trường
 
-Copy file `.env.local` và điền thông tin:
-
 ```bash
 cp .env.local.example .env.local
 ```
 
+Điền đầy đủ các biến:
+
 ```env
-# URL WordPress backend (KHÔNG có trailing slash)
 WORDPRESS_API_URL=https://cms.congty.vn/wp-json
-
-# Secret để bảo vệ webhook revalidation
-# Tạo ngẫu nhiên: openssl rand -hex 32
-REVALIDATION_SECRET=abc123xyz...
-
-# URL của frontend
+REVALIDATION_SECRET=<openssl rand -hex 32>
 NEXT_PUBLIC_SITE_URL=https://congty.vn
-```
-
-### Đổi preset ngành (nếu cần)
-
-Mở `src/config/defaults.ts`, tìm `DEFAULT_SITE_SETTINGS` và chỉnh màu/font:
-
-```ts
-// Hoặc override bằng preset có sẵn:
-import { PRESETS } from './defaults'
-
-export const DEFAULT_SITE_SETTINGS = {
-  ...BASE_DEFAULTS,
-  ...PRESETS.tech,  // law | tech | healthcare | realestate | education | food
-}
+CF7_DEFAULT_FORM_ID=123
 ```
 
 ### Chạy development
@@ -235,6 +314,9 @@ export const DEFAULT_SITE_SETTINGS = {
 npm run dev
 # → http://localhost:3000
 ```
+
+> Nếu chưa có WordPress, site vẫn chạy bình thường với fallback data.  
+> Mọi fetch đến WP có timeout 5 giây — không bị treo máy.
 
 ### Build production
 
@@ -245,153 +327,561 @@ npm run start
 
 ---
 
-## 7. Cấu hình Revalidation Webhook
+## 8. Cấu hình Revalidation Webhook
 
-Mỗi khi editor publish bài hoặc thay đổi ACF Settings trong WordPress, Next.js cần được thông báo để rebuild cache.
+### Cài WP Webhooks plugin
 
-### Cài WP Webhooks
-
-1. Vào **WP Webhooks > Send Data > Add Webhook**
-2. Tạo 2 webhooks:
+Vào **WP Webhooks → Send Data → Add Webhook**, tạo 2 webhooks:
 
 #### Webhook 1: Khi publish/update bài viết
 
 ```
-Name: Revalidate Posts
-Webhook URL: https://congty.vn/api/revalidate?secret=YOUR_SECRET
-Trigger: post_create, post_update
+Name:        Revalidate Posts
+Webhook URL: https://congty.vn/api/revalidate?secret=YOUR_REVALIDATION_SECRET
+Trigger:     post_create, post_update
 ```
 
-Payload template (chọn "Custom Payload"):
-
+Custom Payload:
 ```json
 {
   "post_type": "post",
-  "post_slug": "*post_slug*",
-  "post_id": "*ID*"
+  "post_slug": "*post_slug*"
 }
 ```
 
-#### Webhook 2: Khi thay đổi Site Settings
+#### Webhook 2: Khi thay đổi Site Settings (ACF Options)
 
 ```
-Name: Revalidate Settings
-Webhook URL: https://congty.vn/api/revalidate?secret=YOUR_SECRET
-Trigger: acf/save_post (khi save Options Page)
+Name:        Revalidate Settings
+Webhook URL: https://congty.vn/api/revalidate?secret=YOUR_REVALIDATION_SECRET
+Trigger:     acf/save_post
 ```
 
-Payload template:
-
+Custom Payload:
 ```json
-{
-  "scope": "settings"
-}
+{ "scope": "settings" }
 ```
 
-> **Nếu không dùng WP Webhooks plugin**, thêm code PHP vào functions.php:
->
-> ```php
-> add_action( 'save_post', function( $post_id ) {
->     if ( wp_is_post_revision( $post_id ) ) return;
->     $post = get_post( $post_id );
->     wp_remote_post( 'https://congty.vn/api/revalidate?secret=YOUR_SECRET', [
->         'body' => json_encode([
->             'post_type' => $post->post_type,
->             'post_slug' => $post->post_name,
->         ]),
->         'headers' => [ 'Content-Type' => 'application/json' ],
->     ]);
-> });
->
-> // Khi save ACF Options
-> add_action( 'acf/save_post', function( $post_id ) {
->     if ( $post_id !== 'options' ) return;
->     wp_remote_post( 'https://congty.vn/api/revalidate?secret=YOUR_SECRET', [
->         'body' => json_encode([ 'scope' => 'settings' ]),
->         'headers' => [ 'Content-Type' => 'application/json' ],
->     ]);
-> });
-> ```
+### Thay thế bằng PHP thuần (không cần plugin)
+
+Thêm vào `functions.php`:
+
+```php
+// Revalidate khi publish/update bài viết
+add_action( 'save_post', function( $post_id ) {
+    if ( wp_is_post_revision( $post_id ) ) return;
+    $post = get_post( $post_id );
+    wp_remote_post( 'https://congty.vn/api/revalidate?secret=YOUR_SECRET', [
+        'body'    => json_encode([
+            'post_type' => $post->post_type,
+            'post_slug' => $post->post_name,
+        ]),
+        'headers' => [ 'Content-Type' => 'application/json' ],
+    ]);
+});
+
+// Revalidate khi save ACF Options
+add_action( 'acf/save_post', function( $post_id ) {
+    if ( $post_id !== 'options' ) return;
+    wp_remote_post( 'https://congty.vn/api/revalidate?secret=YOUR_SECRET', [
+        'body'    => json_encode([ 'scope' => 'settings' ]),
+        'headers' => [ 'Content-Type' => 'application/json' ],
+    ]);
+});
+```
 
 ### Test webhook
 
 ```bash
-curl -X POST "http://localhost:3000/api/revalidate?secret=YOUR_SECRET" \
+curl -X POST "https://congty.vn/api/revalidate?secret=YOUR_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"scope": "settings"}'
 
-# Expected response:
+# Expected:
 # {"revalidated":true,"paths":["site-settings","layout"],"timestamp":"..."}
 ```
 
 ---
 
-## 8. Deploy
+## 9. Deploy Frontend
 
-### Frontend (Vercel — Recommended)
+### 9.1 Vercel (Khuyến nghị — nhanh nhất)
+
+Vercel là platform chính thức của Next.js — zero-config, CDN toàn cầu, free tier.
 
 ```bash
 npm i -g vercel
 vercel --prod
 ```
 
-Thêm Environment Variables trên Vercel Dashboard:
-- `WORDPRESS_API_URL`
-- `REVALIDATION_SECRET`
-- `NEXT_PUBLIC_SITE_URL`
+Hoặc kết nối GitHub repo trực tiếp tại vercel.com → mỗi push sẽ tự build.
 
-### Backend WordPress (VPS)
+**Environment Variables** — thêm trong Vercel Dashboard → Project → Settings → Environment Variables:
+
+| Tên | Giá trị |
+|---|---|
+| `WORDPRESS_API_URL` | `https://cms.congty.vn/wp-json` |
+| `REVALIDATION_SECRET` | `<random hex>` |
+| `NEXT_PUBLIC_SITE_URL` | `https://congty.vn` |
+| `CF7_DEFAULT_FORM_ID` | `123` |
+
+**Custom domain:** Vercel Dashboard → Domains → Add `congty.vn` → trỏ DNS theo hướng dẫn.
+
+---
+
+### 9.2 Shared Hosting cPanel có Node.js Selector
+
+Một số shared hosting hiện đại hỗ trợ Node.js qua **cPanel → Setup Node.js App** (dùng Phusion Passenger). Phù hợp khi khách hàng đã có sẵn gói hosting cPanel và không muốn thêm VPS.
+
+> **Kiểm tra trước:** Vào cPanel → tìm mục **"Setup Node.js App"**. Nếu không thấy thì hosting không hỗ trợ, phải dùng Vercel hoặc VPS.
+
+#### Bước 1: Bật `output: standalone` trong next.config.ts
+
+Standalone mode đóng gói toàn bộ server vào một file — cần thiết cho Passenger.
+
+```ts
+// next.config.ts
+const nextConfig: NextConfig = {
+  output: 'standalone',   // thêm dòng này
+  images: {
+    remotePatterns: [ ... ]   // giữ nguyên
+  },
+}
+```
+
+Build và kiểm tra local trước:
+```bash
+npm run build
+node .next/standalone/server.js   # phải chạy được trên port 3000
+```
+
+#### Bước 2: Upload code lên hosting
+
+Dùng **File Manager** hoặc FTP upload toàn bộ project lên thư mục (ví dụ `/home/user/congty-vn`).  
+Hoặc dùng SSH nếu hosting hỗ trợ:
+
+```bash
+ssh user@congty.vn
+git clone <repo-url> ~/congty-vn
+```
+
+#### Bước 3: Tạo Node.js App trong cPanel
+
+1. cPanel → **Setup Node.js App** → **Create Application**
+2. Điền thông tin:
+
+| Trường | Giá trị |
+|---|---|
+| Node.js version | `20.x` (chọn cao nhất có) |
+| Application mode | `Production` |
+| Application root | `/home/user/congty-vn` |
+| Application URL | `congty.vn` (hoặc subdomain) |
+| Application startup file | `server.js` |
+
+3. Click **Create** → cPanel tạo môi trường và file `server.js` wrapper
+
+#### Bước 4: Sửa file `server.js` do cPanel tạo
+
+cPanel tạo một `server.js` wrapper mặc định — thay toàn bộ nội dung bằng:
+
+```js
+require('./.next/standalone/server.js')
+```
+
+> **Lý do:** Next.js standalone server nằm trong `.next/standalone/server.js`, không phải root.
+
+#### Bước 5: Thêm biến môi trường
+
+Trong giao diện **Setup Node.js App** → mục **Environment variables**, thêm 4 biến:
+
+| Name | Value |
+|---|---|
+| `WORDPRESS_API_URL` | `https://cms.congty.vn/wp-json` |
+| `REVALIDATION_SECRET` | `<random hex>` |
+| `NEXT_PUBLIC_SITE_URL` | `https://congty.vn` |
+| `CF7_DEFAULT_FORM_ID` | `123` |
+
+#### Bước 6: Cài dependencies và khởi động
+
+Trong giao diện **Setup Node.js App**, click **Run NPM Install**, sau đó click **Restart**.
+
+Hoặc qua SSH:
+
+```bash
+cd ~/congty-vn
+source /home/user/nodevenv/congty-vn/20/bin/activate   # activate virtualenv của cPanel
+npm install
+```
+
+Sau đó **Stop → Start** app trong giao diện cPanel.
+
+#### Bước 7: Copy static assets (quan trọng)
+
+Standalone mode không tự serve static files — cần copy thủ công:
+
+```bash
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
+```
+
+Chạy lại sau mỗi lần `npm run build`.
+
+#### Bước 8: Deploy code mới
+
+```bash
+cd ~/congty-vn
+git pull
+npm install
+npm run build
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
+```
+
+Sau đó vào cPanel → **Setup Node.js App** → **Restart**.
+
+#### Lưu ý quan trọng với cPanel
+
+- **Port:** Passenger tự quản lý port, không cần set `PORT` env var
+- **SSL:** Dùng **AutoSSL** hoặc **Let's Encrypt** có sẵn trong cPanel
+- **Logs:** cPanel → **Errors** hoặc SSH xem `~/.cpanel/logs/`
+- **Giới hạn:** Passenger có thể kill process khi idle — nếu app lâu không có request, lần đầu vào có thể chậm vài giây (cold start)
+- **RAM:** Shared hosting thường giới hạn RAM (~512MB–1GB) — Next.js cần ít nhất 256MB để build
+
+---
+
+### 9.3 VPS tự quản lý (PM2 + Nginx)
+
+Phù hợp khi cần toàn quyền server, hoặc WordPress và Next.js trên cùng một VPS.
+
+#### Bước 1: Cài Node.js 20 trên VPS (Ubuntu/Debian)
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+node -v   # → v20.x.x
+```
+
+#### Bước 2: Cài PM2 (process manager)
+
+```bash
+sudo npm install -g pm2
+```
+
+#### Bước 3: Upload code và build
+
+```bash
+# Trên VPS
+git clone <repo-url> /var/www/congty-vn
+cd /var/www/congty-vn
+npm install
+cp .env.local.example .env.local
+nano .env.local          # điền đúng các biến môi trường
+npm run build
+```
+
+#### Bước 4: Chạy với PM2
+
+```bash
+pm2 start npm --name "congty-vn" -- start
+pm2 save                 # lưu để khởi động lại khi reboot
+pm2 startup              # thêm PM2 vào systemd
+```
+
+Các lệnh PM2 thường dùng:
+
+```bash
+pm2 list                 # xem danh sách process
+pm2 logs congty-vn       # xem log realtime
+pm2 restart congty-vn    # restart sau khi deploy mới
+pm2 stop congty-vn       # dừng
+```
+
+#### Bước 5: Nginx reverse proxy
+
+Cài Nginx nếu chưa có:
+```bash
+sudo apt install nginx
+```
+
+Tạo file config:
+```bash
+sudo nano /etc/nginx/sites-available/congty-vn
+```
 
 ```nginx
-# Nginx config cho WordPress
 server {
+    listen 80;
+    server_name congty.vn www.congty.vn;
+
+    # Tăng timeout cho Next.js ISR
+    proxy_read_timeout 60s;
+    proxy_connect_timeout 60s;
+
+    location / {
+        proxy_pass         http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection 'upgrade';
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Cache static assets của Next.js
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+```
+
+Kích hoạt và test:
+```bash
+sudo ln -s /etc/nginx/sites-available/congty-vn /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+#### Bước 6: SSL miễn phí với Let's Encrypt
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d congty.vn -d www.congty.vn
+# Certbot tự cập nhật Nginx config và cài cronjob tự gia hạn
+```
+
+#### Bước 7: Deploy code mới
+
+Mỗi khi có code mới, chạy:
+```bash
+cd /var/www/congty-vn
+git pull
+npm install          # nếu có thay đổi package.json
+npm run build
+pm2 restart congty-vn
+```
+
+> **Tip:** Tạo script `deploy.sh` để tự động hóa 5 lệnh trên.
+
+---
+
+### 9.4 Coolify (Self-hosted PaaS — khuyến nghị cho VPS)
+
+Coolify là giải pháp self-hosted tương tự Vercel/Heroku — web UI, git integration, tự động build/deploy. Cài trên cùng VPS với WordPress.
+
+#### Cài Coolify
+
+```bash
+curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+```
+
+Truy cập `http://<VPS-IP>:8000` để vào dashboard.
+
+#### Deploy Next.js trên Coolify
+
+1. **New Resource → Application → GitHub/GitLab**
+2. Chọn repo và branch (`main`)
+3. **Build Pack:** `Nixpacks` (tự detect Next.js)
+4. **Port:** `3000`
+5. **Environment Variables:** thêm 4 biến (xem bảng ở mục 9.1)
+6. Click **Deploy**
+
+Coolify tự động:
+- Build mỗi khi push lên `main`
+- Cấp SSL (Let's Encrypt)
+- Restart nếu process crash
+
+---
+
+### 9.5 Railway / Render (Budget-friendly PaaS)
+
+Không muốn tự quản lý server? Dùng Railway hoặc Render — rẻ hơn Vercel cho traffic lớn.
+
+**Railway:**
+1. Vào railway.app → New Project → Deploy from GitHub
+2. Thêm Environment Variables
+3. Railway tự detect Next.js và build
+
+**Render:**
+1. Vào render.com → New → Web Service → Connect GitHub
+2. Build Command: `npm run build`
+3. Start Command: `npm start`
+4. Thêm Environment Variables
+
+---
+
+### 9.6 So sánh các lựa chọn
+
+| | Vercel | cPanel Node.js | VPS + PM2 | Coolify | Railway/Render |
+|---|---|---|---|---|---|
+| Độ khó | ⭐ Dễ nhất | ⭐⭐ Trung bình | ⭐⭐⭐ Khó | ⭐⭐ Trung bình | ⭐ Dễ |
+| Giá | Free → $20/tháng | Có sẵn trong hosting | ~$5–10/tháng VPS | Miễn phí (self-host) | Free tier → $7/tháng |
+| CDN | ✓ Toàn cầu | ✗ | Cần tự cấu hình | ✗ | ✗ |
+| Ổn định | ✓ Rất cao | ⚠ Tùy provider | ✓ Cao | ✓ Cao | ✓ |
+| Phù hợp | Dự án mới | Tận dụng hosting sẵn | Toàn quyền server | VPS có sẵn WP | Budget thấp |
+| Tự động deploy | ✓ | Thủ công | Cần script | ✓ | ✓ |
+| Cần `output: standalone` | ✗ | ✓ | ✗ | ✗ | ✗ |
+
+> **Khuyến nghị thực tế:**
+> - Khách có sẵn **shared hosting cPanel có Node.js** → dùng cPanel (tiết kiệm chi phí nhất)
+> - Khách có sẵn **VPS chạy WordPress** → dùng **Coolify**
+> - Dự án mới, không có server → **Vercel** (frontend) + shared hosting (WordPress)
+
+---
+
+## 10. Deploy WordPress (Backend)
+
+### Nginx config cho WordPress trên VPS
+
+```nginx
+server {
+    listen 80;
     server_name cms.congty.vn;
     root /var/www/wordpress;
+    index index.php;
 
     location / {
         try_files $uri $uri/ /index.php?$args;
     }
 
-    # Cho phép CORS từ frontend
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # CORS cho Next.js frontend
     add_header Access-Control-Allow-Origin "https://congty.vn" always;
     add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
     add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+
+    # Deny trực tiếp từ browser (chỉ cho phép Next.js server gọi)
+    # Bỏ comment dòng này nếu muốn bảo mật thêm:
+    # if ($http_origin !~ "^https://congty\.vn$") { return 403; }
 }
 ```
 
 ---
 
-## 9. Đổi ngành / Preset
+## 11. Đổi ngành / Preset
 
 Khi nhận dự án mới cho khách hàng khác ngành:
 
-### Bước 1: Chọn preset
+### Bước 1: Chọn preset trong code
 
 ```ts
 // src/config/defaults.ts
-// Đổi dòng này:
-export const DEFAULT_SITE_SETTINGS = { ...BASE, ...PRESETS.law }
-// Thành:
-export const DEFAULT_SITE_SETTINGS = { ...BASE, ...PRESETS.tech }
+export const DEFAULT_SITE_SETTINGS = { ...BASE_DEFAULTS, ...PRESETS.tech }
+//                                                                   ^^^^
+//                        law | tech | healthcare | realestate | education | food
 ```
 
-**Presets có sẵn:**
+### Bước 2: Bootstrap project mới bằng script
 
-| Key | Ngành | Màu | Font |
-|---|---|---|---|
-| `law` | Luật, kế toán, tài chính | Orange + Navy | Playfair Display |
-| `tech` | Công nghệ, SaaS, startup | Blue | Inter |
-| `healthcare` | Y tế, spa, wellness | Teal | DM Sans |
-| `realestate` | Bất động sản, cao cấp | Gold | Cormorant Garamond |
-| `education` | Giáo dục, đào tạo | Purple | Nunito |
-| `food` | Nhà hàng, F&B | Red | Lora |
+```bash
+./scripts/new-client.sh <client-name> <industry> <wp-url>
 
-### Bước 2: Client tự điều chỉnh
+# Ví dụ:
+./scripts/new-client.sh abc-legal law https://cms.abclaw.vn
+./scripts/new-client.sh startup-xyz tech https://cms.startup.vn
+```
 
-Sau khi deploy, client vào **WordPress > Site Settings** để:
-- Upload logo riêng
+Script tự động: copy starter, viết `.env.local`, apply preset, init git, `npm install`.
+
+### Bước 3: Client tự điều chỉnh từ WordPress
+
+Sau khi deploy, client vào **WordPress → Site Settings** để:
+- Upload logo, favicon
 - Fine-tune màu sắc bằng color picker
 - Điền thông tin liên hệ, mạng xã hội
 - Cập nhật nội dung footer
 
-Không cần dev can thiệp.
+**Không cần dev can thiệp** — mọi thay đổi visual được apply realtime qua CSS variables.
+
+---
+
+## 12. Cấu hình Song ngữ
+
+> Mặc định: Tiếng Việt (`vi`) + Tiếng Anh (`en`).  
+> URL pattern: `/` = Tiếng Việt, `/en/` = Tiếng Anh (`localePrefix: 'as-needed'`).
+
+### 12.1 Cài đặt Polylang trong WordPress
+
+1. Cài plugin **Polylang** (xem mục 3)
+2. Vào **Languages → Add New Language** → thêm **English (en)**
+3. Dịch từng trang/bài viết: mở post → click nút bút chì cạnh **English** ở cột phải → dịch nội dung → Publish
+4. Dịch ACF Options: cài thêm **Polylang for WooCommerce** hoặc dùng hook để expose Options theo ngôn ngữ (Polylang Pro tự xử lý)
+
+> **Lưu ý:** Polylang tự động thêm `?lang=en` khi REST API call từ Next.js — không cần cấu hình thêm ở WP phía.
+
+### 12.2 Cấu trúc URL và Middleware
+
+next-intl middleware (`src/middleware.ts`) xử lý routing:
+
+| Request | Xử lý | Kết quả |
+|---|---|---|
+| `GET /` | rewrite nội bộ → `/vi` | Trang chủ Tiếng Việt |
+| `GET /tin-tuc` | rewrite nội bộ → `/vi/tin-tuc` | Tin tức Tiếng Việt |
+| `GET /en/` | pass-through | Trang chủ Tiếng Anh |
+| `GET /en/tin-tuc` | pass-through | Tin tức Tiếng Anh |
+| `GET /vi/` | 307 → `/` | Redirect (no prefix for default) |
+
+### 12.3 Thêm ngôn ngữ mới
+
+**Bước 1** — Thêm locale vào `src/i18n/routing.ts`:
+```ts
+export const routing = defineRouting({
+  locales: ['vi', 'en', 'zh'],   // thêm 'zh'
+  defaultLocale: 'vi',
+  localePrefix: 'as-needed',
+})
+```
+
+**Bước 2** — Tạo file messages:
+```bash
+cp messages/en.json messages/zh.json
+# Dịch toàn bộ giá trị trong zh.json sang Tiếng Trung
+```
+
+**Bước 3** — Thêm ngôn ngữ trong WordPress → **Polylang → Languages → Add New**
+
+**Bước 4** — Dịch nội dung trong WordPress cho ngôn ngữ mới
+
+### 12.4 Dịch UI strings
+
+Tất cả string giao diện (nav, header, footer, form, pagination) nằm trong `messages/vi.json` và `messages/en.json`.
+
+Cấu trúc namespace:
+```json
+{
+  "Nav": { "home": "Trang chủ", "about": "Giới thiệu", ... },
+  "Header": { "cta": "Tư vấn miễn phí" },
+  "Footer": { "rights": "Bản quyền thuộc về..." },
+  "Contact": { "name": "Họ và tên", "submit": "Gửi yêu cầu", ... },
+  "News": { "readMore": "Đọc thêm", "prev": "Trước", "next": "Sau" },
+  "NotFound": { "title": "Trang không tồn tại", "back": "Về trang chủ" }
+}
+```
+
+### 12.5 Language Switcher
+
+Header có sẵn `<LanguageSwitcher>` — toggle giữa `vi` ↔ `en`, giữ nguyên pathname hiện tại:
+
+```tsx
+// Dùng router từ @/i18n/navigation
+router.replace(pathname, { locale: locale === 'vi' ? 'en' : 'vi' })
+```
+
+Để thêm locale mới vào switcher, update component `LanguageSwitcher` trong `src/components/layout/Header.tsx`.
+
+### 12.6 SEO đa ngôn ngữ
+
+Sitemap (`src/app/sitemap.ts`) tự động generate URL cho tất cả locales:
+- `congty.vn/` (vi)
+- `congty.vn/tin-tuc` (vi)
+- `congty.vn/en/` (en)
+- `congty.vn/en/tin-tuc` (en)
+
+Thêm `hreflang` vào metadata của từng page nếu cần SEO đầy đủ (hiện tại chưa implement).

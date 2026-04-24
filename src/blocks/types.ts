@@ -124,6 +124,8 @@ export interface ContactBlock {
   section_label: string
   section_title: string
   dark_background: boolean
+  cf7_form_id?: number   // WP Contact Form 7 form ID — fallback to CF7_DEFAULT_FORM_ID env var
+  cf7_services?: string  // Newline-separated list of service options to show in the select
 }
 
 export interface TimelineBlock {

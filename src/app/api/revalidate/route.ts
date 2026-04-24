@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     // Revalidate site-wide settings (ACF Options thay đổi)
     if (scope === 'settings' || scope === 'all') {
-      revalidateTag('site-settings', {})
+      revalidateTag('site-settings', 'max')
       revalidatePath('/', 'layout')
       revalidated.push('site-settings', 'layout')
     }
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     } else if (!scope) {
       // Fallback: full revalidation
       revalidatePath('/', 'layout')
-      revalidateTag('site-settings', {})
+      revalidateTag('site-settings', 'max')
       revalidated.push('full-site')
     }
 

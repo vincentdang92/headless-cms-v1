@@ -1,8 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useRouter, usePathname } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 import type { SiteSettings } from '@/types/site-settings'
 
@@ -15,12 +17,34 @@ export interface NavItem {
 interface Props {
   settings: SiteSettings
   nav: NavItem[]
+  locale: string
 }
 
-export default function Header({ settings, nav }: Props) {
+function LanguageSwitcher({ locale }: { locale: string }) {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const toggle = () => {
+    router.replace(pathname, { locale: locale === 'vi' ? 'en' : 'vi' })
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-200 text-gray-600 hover:border-(--cp) hover:text-(--cp) transition-colors"
+      title={locale === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+    >
+      <span className="text-sm leading-none">{locale === 'vi' ? '🇻🇳' : '🇬🇧'}</span>
+      <span>{locale === 'vi' ? 'VI' : 'EN'}</span>
+    </button>
+  )
+}
+
+export default function Header({ settings, nav, locale }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const { logo, siteName, siteTagline, contact, topbar } = settings
+  const t = useTranslations('Header')
 
   return (
     <header className="sticky top-0 z-50">
@@ -139,27 +163,31 @@ export default function Header({ settings, nav }: Props) {
               </li>
             ))}
 
-            <li>
+            <li className="flex items-center gap-2 ml-2">
+              <LanguageSwitcher locale={locale} />
               <Link
                 href="/lien-he"
-                className="ml-2 px-4 py-2 text-sm font-bold text-white rounded-lg transition-all hover:opacity-90 hover:-translate-y-px"
+                className="px-4 py-2 text-sm font-bold text-white rounded-lg transition-all hover:opacity-90 hover:-translate-y-px"
                 style={{ background: 'var(--cp)', boxShadow: '0 3px 12px color-mix(in srgb, var(--cp) 40%, transparent)' }}
               >
-                Liên hệ ngay
+                {t('cta')}
               </Link>
             </li>
           </ul>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 text-gray-600 rounded-lg hover:bg-gray-50"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            <span className={cn('block w-5 h-0.5 bg-current mb-1 transition-transform origin-center', menuOpen && 'translate-y-1.5 rotate-45')} />
-            <span className={cn('block w-5 h-0.5 bg-current mb-1 transition-opacity', menuOpen && 'opacity-0')} />
-            <span className={cn('block w-5 h-0.5 bg-current transition-transform origin-center', menuOpen && '-translate-y-1.5 -rotate-45')} />
-          </button>
+          {/* Mobile: language + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <LanguageSwitcher locale={locale} />
+            <button
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-50"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <span className={cn('block w-5 h-0.5 bg-current mb-1 transition-transform origin-center', menuOpen && 'translate-y-1.5 rotate-45')} />
+              <span className={cn('block w-5 h-0.5 bg-current mb-1 transition-opacity', menuOpen && 'opacity-0')} />
+              <span className={cn('block w-5 h-0.5 bg-current transition-transform origin-center', menuOpen && '-translate-y-1.5 -rotate-45')} />
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}

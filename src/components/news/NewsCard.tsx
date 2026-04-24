@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { formatDate, truncate } from '@/lib/utils'
 import { getFeaturedImageUrl, getFeaturedImageAlt, getPostCategories } from '@/lib/wordpress'
 import type { WPPost } from '@/types/wordpress'
@@ -9,10 +10,11 @@ interface Props {
   featured?: boolean
 }
 
-export default function NewsCard({ post, featured = false }: Props) {
+export default async function NewsCard({ post, featured = false }: Props) {
   const imageUrl = getFeaturedImageUrl(post)
   const imageAlt = getFeaturedImageAlt(post)
   const categories = getPostCategories(post)
+  const t = await getTranslations('News')
 
   return (
     <article className={`group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow ${featured ? 'md:flex' : ''}`}>
@@ -50,7 +52,7 @@ export default function NewsCard({ post, featured = false }: Props) {
             href={`/tin-tuc/${post.slug}`}
             className="text-xs font-medium text-blue-700 hover:underline"
           >
-            Đọc tiếp →
+            {t('readMore')}
           </Link>
         </div>
       </div>

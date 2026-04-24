@@ -68,8 +68,8 @@ rm -rf \
 # ─── 2. Write .env.local ──────────────────────────────────────────────────────
 echo "▶ Writing .env.local..."
 cat > "$TARGET_DIR/.env.local" <<ENV
-NEXT_PUBLIC_WP_URL=${WP_URL}
-REVALIDATE_SECRET=$(openssl rand -hex 16)
+WORDPRESS_API_URL=${WP_URL}/wp-json
+REVALIDATION_SECRET=$(openssl rand -hex 32)
 NEXT_PUBLIC_SITE_URL=https://${CLIENT_NAME}.vn
 ENV
 
@@ -77,12 +77,11 @@ ENV
 echo "▶ Writing site.config.ts..."
 cat > "$TARGET_DIR/site.config.ts" <<TS
 // Site config for ${CLIENT_NAME} — ${INDUSTRY} template
-// Edit this file to change industry preset, defaults, and active template
+// For reference only — app reads from env vars and src/config/defaults.ts
 
 export const SITE_CONFIG = {
   industry: '${INDUSTRY}' as const,
   clientName: '${CLIENT_NAME}',
-  wpUrl: process.env.NEXT_PUBLIC_WP_URL ?? '${WP_URL}',
 }
 TS
 
@@ -93,7 +92,7 @@ echo "▶ Applying ${INDUSTRY} preset to defaults.ts..."
 DEFAULTS_FILE="$TARGET_DIR/src/config/defaults.ts"
 
 # Replace the DEFAULT_SITE_SETTINGS export to point to the chosen industry preset
-if grep -q "PRESETS\[" "$DEFAULTS_FILE" 2>/dev/null; then
+if grep -q "activePreset = PRESETS" "$DEFAULTS_FILE" 2>/dev/null; then
   # Already has preset switcher — just update the key
   sed -i.bak "s/PRESETS\['[a-z]*'\]/PRESETS['${INDUSTRY}']/" "$DEFAULTS_FILE" && rm -f "${DEFAULTS_FILE}.bak"
 else
@@ -102,13 +101,11 @@ else
 
 
 // Auto-applied by new-client.sh — override DEFAULT_SITE_SETTINGS with industry preset
-import { PRESETS } from './defaults'
-export { PRESETS }
 const activePreset = PRESETS['${INDUSTRY}']
 if (activePreset) {
   Object.assign(DEFAULT_SITE_SETTINGS.colors, activePreset.colors)
-  DEFAULT_SITE_SETTINGS.fonts.heading = activePreset.fonts.heading
-  DEFAULT_SITE_SETTINGS.fonts.body = activePreset.fonts.body
+  DEFAULT_SITE_SETTINGS.headingFont = activePreset.headingFont
+  DEFAULT_SITE_SETTINGS.bodyFont = activePreset.bodyFont
 }
 TS
 fi

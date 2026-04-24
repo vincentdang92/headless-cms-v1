@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import type { SiteSettings } from '@/types/site-settings'
 import type { NavItem } from './Header'
 
@@ -8,8 +9,9 @@ interface Props {
   nav: NavItem[]
 }
 
-export default function Footer({ settings, nav }: Props) {
+export default async function Footer({ settings, nav }: Props) {
   const { siteName, siteTagline, logo, contact, footer } = settings
+  const t = await getTranslations('Footer')
 
   const socialLinks = [
     contact.facebookLink && { label: 'Facebook', href: contact.facebookLink, icon: 'FB' },
@@ -82,7 +84,7 @@ export default function Footer({ settings, nav }: Props) {
               className="text-white font-semibold text-sm mb-4 pb-2 border-b border-white/10"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Liên kết
+              {t('links')}
             </h4>
             <ul className="space-y-2">
               {nav.map((item) => (
@@ -105,7 +107,7 @@ export default function Footer({ settings, nav }: Props) {
                 className="text-white font-semibold text-sm mb-4 pb-2 border-b border-white/10"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
-                Dịch vụ
+                {t('services')}
               </h4>
               <ul className="space-y-2">
                 {nav
@@ -131,7 +133,7 @@ export default function Footer({ settings, nav }: Props) {
               className="text-white font-semibold text-sm mb-4 pb-2 border-b border-white/10"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Liên hệ
+              {t('contact')}
             </h4>
             <ul className="space-y-3 text-sm">
               {contact.address && (
@@ -177,10 +179,10 @@ export default function Footer({ settings, nav }: Props) {
           <p>{footer.copyright}</p>
           <div className="flex gap-4">
             <Link href="/chinh-sach-bao-mat" className="hover:text-white/70 transition-colors">
-              Chính sách bảo mật
+              {t('privacy')}
             </Link>
             <Link href="/dieu-khoan-su-dung" className="hover:text-white/70 transition-colors">
-              Điều khoản sử dụng
+              {t('terms')}
             </Link>
           </div>
         </div>

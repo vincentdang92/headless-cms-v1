@@ -1,0 +1,59 @@
+{
+  "Nav": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "services": "Dịch vụ",
+    "news": "Tin tức",
+    "contact": "Liên hệ",
+    "establish": "Thành lập doanh nghiệp",
+    "accounting": "Kế toán & Thuế",
+    "trademark": "Bảo hộ thương hiệu"
+  },
+  "Header": {
+    "cta": "Liên hệ ngay"
+  },
+  "Footer": {
+    "links": "Liên kết",
+    "services": "Dịch vụ",
+    "contact": "Liên hệ",
+    "privacy": "Chính sách bảo mật",
+    "terms": "Điều khoản sử dụng"
+  },
+  "Contact": {
+    "defaultTitle": "Đăng ký tư vấn miễn phí",
+    "name": "Họ và tên *",
+    "phone": "Số điện thoại *",
+    "email": "Email",
+    "service": "Dịch vụ quan tâm",
+    "servicePlaceholder": "Chọn dịch vụ...",
+    "message": "Nội dung *",
+    "messagePlaceholder": "Mô tả nhu cầu của bạn...",
+    "submit": "Gửi yêu cầu tư vấn",
+    "submitting": "Đang gửi...",
+    "successTitle": "Gửi thành công!",
+    "successBody": "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.",
+    "sendAnother": "Gửi thêm yêu cầu",
+    "addressLabel": "Địa chỉ",
+    "hotlineLabel": "Hotline",
+    "workingHoursLabel": "Giờ làm việc",
+    "quickConnect": "Kết nối nhanh",
+    "errorDefault": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+    "errorNetwork": "Không thể gửi tin nhắn. Vui lòng thử lại sau."
+  },
+  "News": {
+    "readMore": "Đọc tiếp →",
+    "backToList": "← Quay lại danh sách tin tức",
+    "noPosts": "Chưa có bài viết nào.",
+    "all": "Tất cả",
+    "home": "Trang chủ",
+    "news": "Tin tức",
+    "prev": "← Trước",
+    "next": "Sau →"
+  },
+  "NotFound": {
+    "title": "404 — Không tìm thấy trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+    "home": "Về trang chủ",
+    "contact": "Liên hệ hỗ trợ"
+  }
+}

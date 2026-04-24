@@ -2,15 +2,18 @@ import type { SiteSettings } from '@/types/site-settings'
 import { DEFAULT_SITE_SETTINGS } from '@/config/defaults'
 
 const API_URL = process.env.WORDPRESS_API_URL!
+const WP_TIMEOUT_MS = 5_000
 
 // ─── Fetch từ ACF Options Page ─────────────────────────────────────────────
 // Yêu cầu WordPress: plugin ACF (free hoặc Pro) + ACF Options Page được đăng ký
 // Endpoint: /wp-json/acf/v3/options/options
 
-export async function getSiteSettings(): Promise<SiteSettings> {
+export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
+  const langSuffix = locale && locale !== 'vi' ? `?lang=${locale}` : ''
   try {
-    const res = await fetch(`${API_URL}/acf/v3/options/options`, {
+    const res = await fetch(`${API_URL}/acf/v3/options/options${langSuffix}`, {
       next: { revalidate: 3600, tags: ['site-settings'] },
+      signal: AbortSignal.timeout(WP_TIMEOUT_MS),
     })
     if (!res.ok) return DEFAULT_SITE_SETTINGS
 

@@ -1,19 +1,27 @@
 import type { Metadata } from 'next'
+import { setRequestLocale } from 'next-intl/server'
 import { getFlexiblePage } from '@/lib/wordpress'
 import { getSiteSettings } from '@/lib/site-settings'
 import { DEFAULT_SITE_SETTINGS } from '@/config/defaults'
 import { LAW_SERVICES_FALLBACK } from '@/templates/law/fallback-services'
 import BlockRenderer from '@/blocks/BlockRenderer'
 
+interface Props {
+  params: Promise<{ locale: string }>
+}
+
 export const metadata: Metadata = {
   title: 'Dịch vụ',
   description: 'Toàn bộ dịch vụ pháp lý, kế toán thuế và bảo hộ thương hiệu — trọn gói, minh bạch, nhanh chóng.',
 }
 
-export default async function DichVuPage() {
+export default async function DichVuPage({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const [blocks, settings] = await Promise.all([
-    getFlexiblePage('dich-vu').catch(() => null),
-    getSiteSettings().catch(() => null),
+    getFlexiblePage('dich-vu', locale).catch(() => null),
+    getSiteSettings(locale).catch(() => null),
   ])
 
   const content = blocks ?? LAW_SERVICES_FALLBACK

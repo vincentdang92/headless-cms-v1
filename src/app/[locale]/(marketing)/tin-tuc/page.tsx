@@ -1,43 +1,54 @@
+import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { getPosts, getCategories, getCategoryBySlug } from '@/lib/wordpress'
 import NewsCard from '@/components/news/NewsCard'
 import Pagination from '@/components/ui/Pagination'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Tin tức — CôngTy.vn',
-  description: 'Cập nhật tin tức mới nhất từ công ty và ngành công nghệ.',
-}
-
 interface Props {
+  params: Promise<{ locale: string }>
   searchParams: Promise<{ page?: string; category?: string }>
 }
 
-export default async function TinTucPage({ searchParams }: Props) {
-  const params = await searchParams
-  const page = Number(params.page ?? 1)
-  const categorySlug = params.category
+export const metadata: Metadata = {
+  title: 'Tin tức',
+  description: 'Cập nhật tin tức mới nhất từ công ty và ngành công nghệ.',
+}
+
+export default async function TinTucPage({ params, searchParams }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
+  const [sp, t] = await Promise.all([searchParams, getTranslations('News')])
+
+  const page = Number(sp.page ?? 1)
+  const categorySlug = sp.category
 
   const [categories, selectedCategory] = await Promise.all([
-    getCategories(),
-    categorySlug ? getCategoryBySlug(categorySlug) : Promise.resolve(null),
+    getCategories(locale),
+    categorySlug ? getCategoryBySlug(categorySlug, locale) : Promise.resolve(null),
   ])
 
   const { data: posts, totalPages } = await getPosts({
     page,
     per_page: 9,
     categories: selectedCategory ? [selectedCategory.id] : undefined,
+    locale,
   })
+
+  const basePath = categorySlug ? `/tin-tuc?category=${categorySlug}` : '/tin-tuc'
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
-      {/* Header */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Tin tức</h1>
-        <p className="text-gray-500">Cập nhật tin tức và hoạt động mới nhất từ công ty.</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('news')}</h1>
+        <p className="text-gray-500">
+          {locale === 'en'
+            ? 'Latest news and updates from our company.'
+            : 'Cập nhật tin tức và hoạt động mới nhất từ công ty.'}
+        </p>
       </div>
 
-      {/* Category filter */}
       {categories.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-8">
           <Link
@@ -48,7 +59,7 @@ export default async function TinTucPage({ searchParams }: Props) {
                 : 'text-gray-600 border-gray-200 hover:border-blue-700 hover:text-blue-700'
             }`}
           >
-            Tất cả
+            {t('all')}
           </Link>
           {categories.map((cat) => (
             <Link
@@ -67,10 +78,9 @@ export default async function TinTucPage({ searchParams }: Props) {
         </div>
       )}
 
-      {/* Posts grid */}
       {posts.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
-          <p className="text-lg">Chưa có bài viết nào.</p>
+          <p className="text-lg">{t('noPosts')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -80,11 +90,7 @@ export default async function TinTucPage({ searchParams }: Props) {
         </div>
       )}
 
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        basePath={categorySlug ? `/tin-tuc?category=${categorySlug}` : '/tin-tuc'}
-      />
+      <Pagination currentPage={page} totalPages={totalPages} basePath={basePath} />
     </div>
   )
 }

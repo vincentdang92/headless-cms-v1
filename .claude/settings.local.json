@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node_modules/.bin/next --help)",
+      "Bash(node -e \"const m = require\\('./node_modules/next-intl'\\); console.log\\(Object.keys\\(m\\).slice\\(0,20\\)\\)\")",
+      "Bash(node -e \"const m = require\\('./node_modules/next-intl/routing'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \"const m = require\\('./node_modules/next-intl/navigation'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \"const m = require\\('./node_modules/next-intl/server'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(python -c \"import sys,json; [print\\(json.loads\\(l\\).get\\('message',''\\)\\) for l in sys.stdin if l.strip\\(\\)]\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/\")",
+      "Bash(curl -s \"http://localhost:3000/\")",
+      "Bash(taskkill /PID 424 /F)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"/ => %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"/vi => %{http_code}\\\\n\" http://localhost:3000/vi)",
+      "Bash(curl -s -o /dev/null -w \"/en => %{http_code}\\\\n\" http://localhost:3000/en)"
+    ]
+  }
+}

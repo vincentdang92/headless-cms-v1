@@ -120,10 +120,33 @@ export interface WPQueryParams {
   status?: string
   orderby?: string
   order?: 'asc' | 'desc'
+  locale?: string
 }
 
 export interface WPPaginatedResponse<T> {
   data: T[]
   totalPosts: number
   totalPages: number
+}
+
+// ─── Contact Form 7 ───────────────────────────────────────────────────────────
+
+export interface CF7InvalidField {
+  field: string
+  message: string
+  idref: string | null
+  error_id: string
+}
+
+export type CF7Status =
+  | 'mail_sent'
+  | 'mail_failed'
+  | 'validation_failed'
+  | 'spam'
+  | 'aborted'
+
+export interface CF7Response {
+  status: CF7Status
+  message: string
+  invalid_fields?: CF7InvalidField[]
 }

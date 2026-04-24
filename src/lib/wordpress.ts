@@ -10,11 +10,20 @@ import type { FlexibleContent } from '@/blocks/types'
 
 const API_URL = process.env.WORDPRESS_API_URL!
 
-async function wpFetch<T>(endpoint: string, revalidate = 3600): Promise<T> {
-  const url = `${API_URL}${endpoint}`
+const WP_TIMEOUT_MS = 5_000
+
+// Appends ?lang=en for non-default locale (requires Polylang on WordPress)
+function appendLang(url: string, locale?: string): string {
+  if (!locale || locale === 'vi') return url
+  return url.includes('?') ? `${url}&lang=${locale}` : `${url}?lang=${locale}`
+}
+
+async function wpFetch<T>(endpoint: string, revalidate = 3600, locale?: string): Promise<T> {
+  const url = appendLang(`${API_URL}${endpoint}`, locale)
   const res = await fetch(url, {
     next: { revalidate },
     headers: { 'Content-Type': 'application/json' },
+    signal: AbortSignal.timeout(WP_TIMEOUT_MS),
   })
 
   if (!res.ok) {
@@ -36,6 +45,7 @@ export async function getPosts(
     categories,
     orderby = 'date',
     order = 'desc',
+    locale,
   } = params
 
   const query = new URLSearchParams({
@@ -48,11 +58,13 @@ export async function getPosts(
 
   if (search) query.set('search', search)
   if (categories?.length) query.set('categories', categories.join(','))
+  if (locale && locale !== 'vi') query.set('lang', locale)
 
   const url = `/wp/v2/posts?${query}`
   const res = await fetch(`${API_URL}${url}`, {
     next: { revalidate: 3600 },
     headers: { 'Content-Type': 'application/json' },
+    signal: AbortSignal.timeout(WP_TIMEOUT_MS),
   })
 
   if (!res.ok) throw new Error(`WordPress API error: ${res.status}`)
@@ -64,60 +76,64 @@ export async function getPosts(
   return { data, totalPosts, totalPages }
 }
 
-export async function getPostBySlug(slug: string): Promise<WPPost | null> {
+export async function getPostBySlug(slug: string, locale?: string): Promise<WPPost | null> {
   const posts = await wpFetch<WPPost[]>(
     `/wp/v2/posts?slug=${slug}&_embed=1`,
-    3600
+    3600,
+    locale
   )
   return posts[0] ?? null
 }
 
-export async function getLatestPosts(count = 6): Promise<WPPost[]> {
-  const { data } = await getPosts({ per_page: count })
+export async function getLatestPosts(count = 6, locale?: string): Promise<WPPost[]> {
+  const { data } = await getPosts({ per_page: count, locale })
   return data
 }
 
-export async function getAllPostSlugs(): Promise<string[]> {
-  const posts = await wpFetch<WPPost[]>(`/wp/v2/posts?per_page=100&fields=slug`)
+export async function getAllPostSlugs(locale?: string): Promise<string[]> {
+  const posts = await wpFetch<WPPost[]>(`/wp/v2/posts?per_page=100&fields=slug`, 3600, locale)
   return posts.map((p) => p.slug)
 }
 
 // ─── Pages ────────────────────────────────────────────────────────────────────
 
-export async function getPageBySlug(slug: string): Promise<WPPage | null> {
+export async function getPageBySlug(slug: string, locale?: string): Promise<WPPage | null> {
   const pages = await wpFetch<WPPage[]>(
     `/wp/v2/pages?slug=${slug}&_embed=1`,
-    86400
+    86400,
+    locale
   )
   return pages[0] ?? null
 }
 
 // ─── Categories ───────────────────────────────────────────────────────────────
 
-export async function getCategories(): Promise<WPCategory[]> {
-  return wpFetch<WPCategory[]>(`/wp/v2/categories?per_page=100&hide_empty=true`)
+export async function getCategories(locale?: string): Promise<WPCategory[]> {
+  return wpFetch<WPCategory[]>(`/wp/v2/categories?per_page=100&hide_empty=true`, 3600, locale)
 }
 
-export async function getCategoryBySlug(slug: string): Promise<WPCategory | null> {
-  const cats = await wpFetch<WPCategory[]>(`/wp/v2/categories?slug=${slug}`)
+export async function getCategoryBySlug(slug: string, locale?: string): Promise<WPCategory | null> {
+  const cats = await wpFetch<WPCategory[]>(`/wp/v2/categories?slug=${slug}`, 3600, locale)
   return cats[0] ?? null
 }
 
 // ─── Tags ─────────────────────────────────────────────────────────────────────
 
-export async function getTags(): Promise<WPTag[]> {
-  return wpFetch<WPTag[]>(`/wp/v2/tags?per_page=100&hide_empty=true`)
+export async function getTags(locale?: string): Promise<WPTag[]> {
+  return wpFetch<WPTag[]>(`/wp/v2/tags?per_page=100&hide_empty=true`, 3600, locale)
 }
 
 // ─── ACF Flexible Content ─────────────────────────────────────────────────────
 // Fetch ACF flexible_content field từ một WP Page (slug)
 // Endpoint: /acf/v3/pages?slug={slug}  hoặc /wp/v2/pages?slug={slug} (ACF exposes acf field)
 
-export async function getFlexiblePage(slug: string): Promise<FlexibleContent | null> {
+export async function getFlexiblePage(slug: string, locale?: string): Promise<FlexibleContent | null> {
   try {
     // ACF REST API v3 trả về acf fields trực tiếp
-    const res = await fetch(`${API_URL}/acf/v3/pages?slug=${slug}`, {
+    const apiUrl = appendLang(`${API_URL}/acf/v3/pages?slug=${slug}`, locale)
+    const res = await fetch(apiUrl, {
       next: { revalidate: 3600, tags: ['flexible-content', `page-${slug}`] },
+      signal: AbortSignal.timeout(WP_TIMEOUT_MS),
     })
     if (!res.ok) return null
     const data = await res.json()
