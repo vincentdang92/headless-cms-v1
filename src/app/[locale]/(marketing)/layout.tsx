@@ -1,9 +1,11 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getSiteSettings } from '@/lib/site-settings'
+import { getMenu } from '@/lib/wordpress'
 import { DEFAULT_SITE_SETTINGS } from '@/config/defaults'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import type { NavItem } from '@/components/layout/Header'
+import type { NavItem } from '@/types/wordpress'
+import DevPanelLoader from '@/components/dev/DevPanelLoader'
 
 interface Props {
   children: React.ReactNode
@@ -14,9 +16,10 @@ export default async function MarketingLayout({ children, params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
 
-  const [settings, t] = await Promise.all([
+  const [settings, t, wpNav] = await Promise.all([
     getSiteSettings(locale).catch(() => null),
     getTranslations('Nav'),
+    getMenu('primary', locale).catch(() => []),
   ])
 
   const DEFAULT_NAV: NavItem[] = [
@@ -35,14 +38,23 @@ export default async function MarketingLayout({ children, params }: Props) {
     { label: t('contact'), href: '/lien-he' },
   ]
 
-  // TODO: fetch WP Menus khi đã cài WP-API-Menus plugin
-  const nav = DEFAULT_NAV
+  const nav = wpNav.length > 0 ? wpNav : DEFAULT_NAV
+
+  const resolvedSettings = settings ?? DEFAULT_SITE_SETTINGS
 
   return (
     <>
-      <Header settings={settings ?? DEFAULT_SITE_SETTINGS} nav={nav} locale={locale} />
+      <Header settings={resolvedSettings} nav={nav} locale={locale} multilingualEnabled={!!process.env.NEXT_PUBLIC_MULTILINGUAL} />
       <main className="min-h-screen">{children}</main>
-      <Footer settings={settings ?? DEFAULT_SITE_SETTINGS} nav={nav} />
+      <Footer settings={resolvedSettings} nav={nav} />
+      {process.env.NODE_ENV === 'development' && (
+        <DevPanelLoader
+          settings={resolvedSettings}
+          apiUrl={process.env.WORDPRESS_API_URL ?? ''}
+          locale={locale}
+          hasSecret={!!process.env.WP_API_SECRET}
+        />
+      )}
     </>
   )
 }

@@ -48,7 +48,13 @@
     "home": "Home",
     "news": "News",
     "prev": "← Prev",
-    "next": "Next →"
+    "next": "Next →",
+    "searchPlaceholder": "Search news...",
+    "searching": "Searching...",
+    "searchResults": "results for",
+    "noSearchResults": "No articles found.",
+    "noSearchResultsHint": "Try a different keyword or check your spelling.",
+    "clearSearch": "Clear search"
   },
   "NotFound": {
     "title": "404 — Page Not Found",

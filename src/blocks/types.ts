@@ -10,20 +10,27 @@ export interface AcfImage {
 
 // ─── Individual block types ────────────────────────────────────────────────
 
+export interface HeroSlide {
+  badge_text?: string
+  headline: string
+  headline_highlight?: string
+  slogan?: string
+  description: string
+  cta_primary_text?: string
+  cta_primary_link?: string
+  cta_secondary_text?: string
+  cta_secondary_link?: string
+  bg_image?: AcfImage             // dùng cho variant image_bg
+}
+
 export interface HeroBlock {
   acf_fc_layout: 'hero'
-  badge_text: string
-  headline: string
-  headline_highlight: string      // từ được highlight màu primary
-  slogan: string                  // italic dưới headline
-  description: string
-  cta_primary_text: string
-  cta_primary_link: string
-  cta_secondary_text: string
-  cta_secondary_link: string
-  stats: Array<{ value: string; label: string }>
-  checklist: Array<{ text: string }>
-  show_stats_card: boolean
+  variant?: 'split' | 'centered' | 'image_bg' | 'minimal'
+  slides: HeroSlide[]
+  stats?: Array<{ value: string; label: string }>
+  checklist?: Array<{ text: string }>
+  show_stats_card?: boolean
+  autoplay_delay?: number         // ms, default 5000
 }
 
 export interface TrustBarBlock {
@@ -155,6 +162,18 @@ export interface ValuesBlock {
   }>
 }
 
+export interface LatestPostsBlock {
+  acf_fc_layout: 'latest_posts'
+  section_label?: string
+  section_title: string
+  section_desc?: string
+  dark_background: boolean
+  posts_count?: number      // số bài hiển thị, default 6
+  category_slug?: string    // lọc theo danh mục (slug WP)
+  view_all_text?: string
+  view_all_link?: string    // default /tin-tuc
+}
+
 // ─── Union type ────────────────────────────────────────────────────────────
 
 export type FlexibleBlock =
@@ -170,5 +189,6 @@ export type FlexibleBlock =
   | ContactBlock
   | TimelineBlock
   | ValuesBlock
+  | LatestPostsBlock
 
 export type FlexibleContent = FlexibleBlock[]

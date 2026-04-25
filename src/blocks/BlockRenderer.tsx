@@ -12,6 +12,7 @@ import CtaBlock from './CtaBlock'
 import ContactBlock from './ContactBlock'
 import TimelineBlock from './TimelineBlock'
 import ValuesBlock from './ValuesBlock'
+import LatestPostsBlock from './LatestPostsBlock'
 
 interface Props {
   blocks: FlexibleBlock[]
@@ -49,6 +50,8 @@ export default function BlockRenderer({ blocks, settings }: Props) {
             return <TimelineBlock key={key} block={block} />
           case 'values_grid':
             return <ValuesBlock key={key} block={block} />
+          case 'latest_posts':
+            return <LatestPostsBlock key={key} block={block} />
           default:
             return null
         }

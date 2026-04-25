@@ -1,307 +1,433 @@
-{
-  "key": "group_site_settings",
-  "title": "Site Settings",
-  "fields": [
-    {
-      "key": "field_tab_brand",
-      "label": "Thương hiệu",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_site_name",
-      "label": "Tên công ty",
-      "name": "site_name",
-      "type": "text",
-      "required": 1,
-      "placeholder": "Tên công ty / thương hiệu"
-    },
-    {
-      "key": "field_site_tagline",
-      "label": "Tagline",
-      "name": "site_tagline",
-      "type": "text",
-      "placeholder": "Slogan / dòng phụ"
-    },
-    {
-      "key": "field_site_description",
-      "label": "Mô tả trang web",
-      "name": "site_description",
-      "type": "textarea",
-      "rows": 3,
-      "instructions": "Dùng làm meta description mặc định (tối đa 160 ký tự)"
-    },
-    {
-      "key": "field_site_logo",
-      "label": "Logo",
-      "name": "site_logo",
-      "type": "image",
-      "return_format": "array",
-      "preview_size": "medium",
-      "instructions": "PNG/SVG nền trong. Kích thước khuyến nghị: 300x90px"
-    },
-    {
-      "key": "field_site_favicon",
-      "label": "Favicon",
-      "name": "site_favicon",
-      "type": "image",
-      "return_format": "array",
-      "preview_size": "thumbnail",
-      "instructions": "Kích thước: 32x32px hoặc 64x64px"
-    },
-    {
-      "key": "field_tab_colors",
-      "label": "Màu sắc & Font",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_primary_color",
-      "label": "Màu chủ đạo",
-      "name": "primary_color",
-      "type": "color_picker",
-      "default_value": "#E8753A",
-      "enable_opacity": 0,
-      "instructions": "Màu chính dùng cho button, link, accent"
-    },
-    {
-      "key": "field_primary_light_color",
-      "label": "Màu chủ đạo (nhạt)",
-      "name": "primary_light_color",
-      "type": "color_picker",
-      "default_value": "#F4A96A"
-    },
-    {
-      "key": "field_primary_pale_color",
-      "label": "Màu nền nhạt",
-      "name": "primary_pale_color",
-      "type": "color_picker",
-      "default_value": "#FDF0E7",
-      "instructions": "Dùng làm background nhẹ, hover state"
-    },
-    {
-      "key": "field_dark_color",
-      "label": "Màu tối (Dark)",
-      "name": "dark_color",
-      "type": "color_picker",
-      "default_value": "#1A1A2E",
-      "instructions": "Dùng cho header, footer, dark sections"
-    },
-    {
-      "key": "field_heading_font",
-      "label": "Font tiêu đề",
-      "name": "heading_font",
-      "type": "select",
-      "choices": {
-        "Playfair Display": "Playfair Display — Luật, Tài chính",
-        "Be Vietnam Pro": "Be Vietnam Pro — Phổ thông",
-        "Inter": "Inter — Công nghệ, SaaS",
-        "DM Sans": "DM Sans — Y tế, Wellness",
-        "Cormorant Garamond": "Cormorant Garamond — Bất động sản cao cấp",
-        "Nunito": "Nunito — Giáo dục",
-        "Lora": "Lora — Nhà hàng, F&B"
-      },
-      "default_value": "Playfair Display",
-      "allow_null": 0,
-      "return_format": "value"
-    },
-    {
-      "key": "field_body_font",
-      "label": "Font nội dung",
-      "name": "body_font",
-      "type": "select",
-      "choices": {
-        "Be Vietnam Pro": "Be Vietnam Pro",
-        "Inter": "Inter",
-        "DM Sans": "DM Sans",
-        "Raleway": "Raleway",
-        "Nunito": "Nunito",
-        "Lato": "Lato"
-      },
-      "default_value": "Be Vietnam Pro",
-      "allow_null": 0,
-      "return_format": "value"
-    },
-    {
-      "key": "field_tab_contact",
-      "label": "Liên hệ",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_phone",
-      "label": "Số điện thoại",
-      "name": "phone",
-      "type": "text",
-      "placeholder": "0123 456 789"
-    },
-    {
-      "key": "field_hotline",
-      "label": "Hotline (nổi bật trên topbar)",
-      "name": "hotline",
-      "type": "text",
-      "placeholder": "1900 xxxx",
-      "instructions": "Để trống nếu không có hotline riêng"
-    },
-    {
-      "key": "field_email",
-      "label": "Email",
-      "name": "email",
-      "type": "email",
-      "placeholder": "info@congty.vn"
-    },
-    {
-      "key": "field_address",
-      "label": "Địa chỉ",
-      "name": "address",
-      "type": "text",
-      "placeholder": "123 Đường ABC, Quận 1, TP.HCM"
-    },
-    {
-      "key": "field_working_hours",
-      "label": "Giờ làm việc",
-      "name": "working_hours",
-      "type": "text",
-      "default_value": "T2–T6, 8:00–17:30"
-    },
-    {
-      "key": "field_zalo_link",
-      "label": "Link Zalo",
-      "name": "zalo_link",
-      "type": "url",
-      "placeholder": "https://zalo.me/0123456789"
-    },
-    {
-      "key": "field_facebook_link",
-      "label": "Link Facebook",
-      "name": "facebook_link",
-      "type": "url",
-      "placeholder": "https://facebook.com/page-name"
-    },
-    {
-      "key": "field_youtube_link",
-      "label": "Link YouTube",
-      "name": "youtube_link",
-      "type": "url"
-    },
-    {
-      "key": "field_linkedin_link",
-      "label": "Link LinkedIn",
-      "name": "linkedin_link",
-      "type": "url"
-    },
-    {
-      "key": "field_map_embed_url",
-      "label": "Google Maps Embed URL",
-      "name": "map_embed_url",
-      "type": "url",
-      "placeholder": "https://www.google.com/maps/embed?pb=...",
-      "instructions": "Vào Google Maps → tìm địa chỉ → Share → Embed a map → copy phần src của thẻ <iframe>. Để trống nếu không cần bản đồ."
-    },
-    {
-      "key": "field_tab_header",
-      "label": "Header",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_topbar_enabled",
-      "label": "Hiển thị Topbar",
-      "name": "topbar_enabled",
-      "type": "true_false",
-      "default_value": 1,
-      "ui": 1,
-      "instructions": "Thanh thông tin nhỏ phía trên header (địa chỉ, hotline)"
-    },
-    {
-      "key": "field_topbar_text",
-      "label": "Nội dung Topbar tùy chỉnh",
-      "name": "topbar_text",
-      "type": "text",
-      "placeholder": "🎉 Ưu đãi tháng 12 — Giảm 30% dịch vụ",
-      "instructions": "Để trống để hiển thị địa chỉ và email mặc định"
-    },
-    {
-      "key": "field_tab_footer",
-      "label": "Footer",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_footer_about",
-      "label": "Giới thiệu ngắn (Footer)",
-      "name": "footer_about",
-      "type": "textarea",
-      "rows": 3,
-      "placeholder": "Mô tả ngắn về công ty, hiển thị ở cột đầu footer"
-    },
-    {
-      "key": "field_footer_copyright",
-      "label": "Copyright",
-      "name": "footer_copyright",
-      "type": "text",
-      "placeholder": "© 2024 Tên Công Ty. All rights reserved.",
-      "instructions": "Để trống để tự động điền theo năm hiện tại"
-    },
-    {
-      "key": "field_tab_scripts",
-      "label": "Scripts & Tracking",
-      "name": "",
-      "type": "tab",
-      "placement": "top"
-    },
-    {
-      "key": "field_google_analytics_id",
-      "label": "Google Analytics ID (GA4)",
-      "name": "google_analytics_id",
-      "type": "text",
-      "placeholder": "G-XXXXXXXXXX",
-      "instructions": "Chỉ điền nếu KHÔNG dùng GTM"
-    },
-    {
-      "key": "field_google_tag_manager_id",
-      "label": "Google Tag Manager ID",
-      "name": "google_tag_manager_id",
-      "type": "text",
-      "placeholder": "GTM-XXXXXXX",
-      "instructions": "Nếu dùng GTM thì không cần điền GA4 ID riêng"
-    },
-    {
-      "key": "field_head_scripts",
-      "label": "Custom Scripts (trước </head>)",
-      "name": "head_scripts",
-      "type": "textarea",
-      "rows": 5,
-      "instructions": "Nhúng Facebook Pixel, Hotjar, hoặc script tùy chỉnh. KHÔNG bao gồm thẻ <script>."
-    },
-    {
-      "key": "field_body_scripts",
-      "label": "Custom Scripts (trước </body>)",
-      "name": "body_scripts",
-      "type": "textarea",
-      "rows": 5,
-      "instructions": "Script chạy cuối trang"
-    }
-  ],
-  "location": [
-    [
+[
+  {
+    "key": "group_site_settings",
+    "title": "Site Settings",
+    "fields": [
+      { "key": "field_tab_brand", "label": "Thương hiệu", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_site_name", "label": "Tên công ty", "name": "site_name", "type": "text", "required": 1, "placeholder": "Tên công ty / thương hiệu" },
+      { "key": "field_site_tagline", "label": "Tagline", "name": "site_tagline", "type": "text", "placeholder": "Slogan / dòng phụ" },
+      { "key": "field_site_description", "label": "Mô tả trang web", "name": "site_description", "type": "textarea", "rows": 3, "instructions": "Dùng làm meta description mặc định (tối đa 160 ký tự)" },
+      { "key": "field_site_logo", "label": "Logo", "name": "site_logo", "type": "image", "return_format": "array", "preview_size": "medium", "instructions": "PNG/SVG nền trong. Kích thước khuyến nghị: 300x90px" },
+      { "key": "field_site_favicon", "label": "Favicon", "name": "site_favicon", "type": "image", "return_format": "array", "preview_size": "thumbnail", "instructions": "Kích thước: 32x32px hoặc 64x64px" },
+      { "key": "field_tab_colors", "label": "Màu sắc & Font", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_primary_color", "label": "Màu chủ đạo", "name": "primary_color", "type": "color_picker", "default_value": "#E8753A", "enable_opacity": 0, "instructions": "Màu chính dùng cho button, link, accent" },
+      { "key": "field_primary_light_color", "label": "Màu chủ đạo (nhạt)", "name": "primary_light_color", "type": "color_picker", "default_value": "#F4A96A" },
+      { "key": "field_primary_pale_color", "label": "Màu nền nhạt", "name": "primary_pale_color", "type": "color_picker", "default_value": "#FDF0E7", "instructions": "Dùng làm background nhẹ, hover state" },
+      { "key": "field_dark_color", "label": "Màu tối (Dark)", "name": "dark_color", "type": "color_picker", "default_value": "#1A1A2E", "instructions": "Dùng cho header, footer, dark sections" },
       {
-        "param": "options_page",
-        "operator": "==",
-        "value": "site-settings"
+        "key": "field_heading_font", "label": "Font tiêu đề", "name": "heading_font", "type": "select",
+        "choices": { "Playfair Display": "Playfair Display — Luật, Tài chính", "Be Vietnam Pro": "Be Vietnam Pro — Phổ thông", "Inter": "Inter — Công nghệ, SaaS", "DM Sans": "DM Sans — Y tế, Wellness", "Cormorant Garamond": "Cormorant Garamond — Bất động sản cao cấp", "Nunito": "Nunito — Giáo dục", "Lora": "Lora — Nhà hàng, F&B" },
+        "default_value": "Playfair Display", "allow_null": 0, "return_format": "value"
+      },
+      {
+        "key": "field_body_font", "label": "Font nội dung", "name": "body_font", "type": "select",
+        "choices": { "Be Vietnam Pro": "Be Vietnam Pro", "Inter": "Inter", "DM Sans": "DM Sans", "Raleway": "Raleway", "Nunito": "Nunito", "Lato": "Lato" },
+        "default_value": "Be Vietnam Pro", "allow_null": 0, "return_format": "value"
+      },
+      { "key": "field_tab_contact", "label": "Liên hệ", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_phone", "label": "Số điện thoại", "name": "phone", "type": "text", "placeholder": "0123 456 789" },
+      { "key": "field_hotline", "label": "Hotline (nổi bật trên topbar)", "name": "hotline", "type": "text", "placeholder": "1900 xxxx", "instructions": "Để trống nếu không có hotline riêng" },
+      { "key": "field_email", "label": "Email", "name": "email", "type": "email", "placeholder": "info@congty.vn" },
+      { "key": "field_address", "label": "Địa chỉ", "name": "address", "type": "text", "placeholder": "123 Đường ABC, Quận 1, TP.HCM" },
+      { "key": "field_working_hours", "label": "Giờ làm việc", "name": "working_hours", "type": "text", "default_value": "T2–T6, 8:00–17:30" },
+      { "key": "field_zalo_link", "label": "Link Zalo", "name": "zalo_link", "type": "url", "placeholder": "https://zalo.me/0123456789" },
+      { "key": "field_facebook_link", "label": "Link Facebook", "name": "facebook_link", "type": "url", "placeholder": "https://facebook.com/page-name" },
+      { "key": "field_youtube_link", "label": "Link YouTube", "name": "youtube_link", "type": "url" },
+      { "key": "field_linkedin_link", "label": "Link LinkedIn", "name": "linkedin_link", "type": "url" },
+      { "key": "field_twitter_link", "label": "Link Twitter / X", "name": "twitter_link", "type": "url", "placeholder": "https://twitter.com/username" },
+      { "key": "field_map_embed_url", "label": "Google Maps Embed URL", "name": "map_embed_url", "type": "url", "placeholder": "https://www.google.com/maps/embed?pb=...", "instructions": "Vào Google Maps → tìm địa chỉ → Share → Embed a map → copy phần src của thẻ <iframe>. Để trống nếu không cần bản đồ." },
+      { "key": "field_tab_header", "label": "Header", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_topbar_enabled", "label": "Hiển thị Topbar", "name": "topbar_enabled", "type": "true_false", "default_value": 1, "ui": 1, "instructions": "Thanh thông tin nhỏ phía trên header (địa chỉ, hotline)" },
+      { "key": "field_topbar_text", "label": "Nội dung Topbar tùy chỉnh", "name": "topbar_text", "type": "text", "placeholder": "🎉 Ưu đãi tháng 12 — Giảm 30% dịch vụ", "instructions": "Để trống để hiển thị địa chỉ và email mặc định" },
+      { "key": "field_tab_footer", "label": "Footer", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_footer_about", "label": "Giới thiệu ngắn (Footer)", "name": "footer_about", "type": "textarea", "rows": 3, "placeholder": "Mô tả ngắn về công ty, hiển thị ở cột đầu footer" },
+      { "key": "field_footer_copyright", "label": "Copyright", "name": "footer_copyright", "type": "text", "placeholder": "© 2024 Tên Công Ty. All rights reserved.", "instructions": "Để trống để tự động điền theo năm hiện tại" },
+      { "key": "field_tab_scripts", "label": "Scripts & Tracking", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_google_analytics_id", "label": "Google Analytics ID (GA4)", "name": "google_analytics_id", "type": "text", "placeholder": "G-XXXXXXXXXX", "instructions": "Chỉ điền nếu KHÔNG dùng GTM" },
+      { "key": "field_google_tag_manager_id", "label": "Google Tag Manager ID", "name": "google_tag_manager_id", "type": "text", "placeholder": "GTM-XXXXXXX", "instructions": "Nếu dùng GTM thì không cần điền GA4 ID riêng" },
+      { "key": "field_head_scripts", "label": "Custom Scripts (trước </head>)", "name": "head_scripts", "type": "textarea", "rows": 5, "instructions": "Nhúng Facebook Pixel, Hotjar, hoặc script tùy chỉnh. KHÔNG bao gồm thẻ <script>." },
+      { "key": "field_body_scripts", "label": "Custom Scripts (trước </body>)", "name": "body_scripts", "type": "textarea", "rows": 5, "instructions": "Script chạy cuối trang" }
+    ],
+    "location": [[{ "param": "options_page", "operator": "==", "value": "site-settings" }]],
+    "menu_order": 0, "position": "normal", "style": "default",
+    "label_placement": "top", "instruction_placement": "label", "active": true
+  },
+
+  {
+    "key": "group_page_flexible_content",
+    "title": "Nội dung trang — Flexible Content",
+    "_instructions": "Gán cho post_type = page. Tên field flexible_content phải khớp với getFlexiblePage() trong lib/wordpress.ts",
+    "fields": [
+      {
+        "key": "field_fc_root",
+        "label": "Nội dung trang",
+        "name": "flexible_content",
+        "type": "flexible_content",
+        "button_label": "Thêm block",
+        "min": 0, "max": 0,
+        "layouts": [
+
+          {
+            "key": "layout_hero",
+            "name": "hero",
+            "label": "Hero Slider",
+            "display": "block",
+            "sub_fields": [
+              {
+                "key": "field_fc_hero_variant",
+                "label": "Kiểu hiển thị (Variant)",
+                "name": "variant",
+                "type": "select",
+                "choices": {
+                  "split":    "Split — Dark 2-col, stats card bên phải (mặc định)",
+                  "centered": "Centered — Dark, căn giữa, stats row phía dưới",
+                  "image_bg": "Image BG — Ảnh nền mỗi slide + overlay tối",
+                  "minimal":  "Minimal — Nền sáng, 2-col, phù hợp tech / healthcare"
+                },
+                "default_value": "split",
+                "allow_null": 0,
+                "return_format": "value",
+                "instructions": "Chọn kiểu layout cho hero section. Mỗi variant có visual khác nhau phù hợp với từng ngành."
+              },
+              {
+                "key": "field_fc_hero_slides",
+                "label": "Slides",
+                "name": "slides",
+                "type": "repeater",
+                "min": 1, "max": 0,
+                "layout": "block",
+                "button_label": "Thêm slide",
+                "sub_fields": [
+                  { "key": "field_fc_hero_slide_badge",  "label": "Badge text",          "name": "badge_text",          "type": "text" },
+                  { "key": "field_fc_hero_slide_head",   "label": "Tiêu đề",              "name": "headline",            "type": "text", "required": 1 },
+                  { "key": "field_fc_hero_slide_hl",     "label": "Từ highlight (màu cam)", "name": "headline_highlight",  "type": "text" },
+                  { "key": "field_fc_hero_slide_slogan", "label": "Slogan (italic)",       "name": "slogan",              "type": "text" },
+                  { "key": "field_fc_hero_slide_desc",   "label": "Mô tả",                "name": "description",         "type": "textarea", "rows": 3, "required": 1 },
+                  { "key": "field_fc_hero_slide_cta1t",  "label": "CTA chính — Text",      "name": "cta_primary_text",    "type": "text" },
+                  { "key": "field_fc_hero_slide_cta1l",  "label": "CTA chính — Link",      "name": "cta_primary_link",    "type": "text" },
+                  { "key": "field_fc_hero_slide_cta2t",  "label": "CTA phụ — Text",        "name": "cta_secondary_text",  "type": "text" },
+                  { "key": "field_fc_hero_slide_cta2l",  "label": "CTA phụ — Link",        "name": "cta_secondary_link",  "type": "text" },
+                  { "key": "field_fc_hero_slide_bgimg",  "label": "Ảnh nền slide (Image BG variant)", "name": "bg_image", "type": "image", "return_format": "array", "preview_size": "medium", "instructions": "Chỉ dùng khi variant = Image BG. Kích thước khuyến nghị: 1920x700px." }
+                ]
+              },
+              {
+                "key": "field_fc_hero_stats",
+                "label": "Thống kê (Stats Card bên phải)",
+                "name": "stats",
+                "type": "repeater",
+                "layout": "table",
+                "button_label": "Thêm chỉ số",
+                "sub_fields": [
+                  { "key": "field_fc_hero_stat_val",   "label": "Số / Giá trị", "name": "value", "type": "text", "required": 1 },
+                  { "key": "field_fc_hero_stat_label", "label": "Nhãn",         "name": "label", "type": "text", "required": 1 }
+                ]
+              },
+              {
+                "key": "field_fc_hero_checklist",
+                "label": "Checklist (liệt kê điểm mạnh)",
+                "name": "checklist",
+                "type": "repeater",
+                "layout": "table",
+                "button_label": "Thêm item",
+                "sub_fields": [
+                  { "key": "field_fc_hero_check_text", "label": "Nội dung", "name": "text", "type": "text", "required": 1 }
+                ]
+              },
+              { "key": "field_fc_hero_show_stats",     "label": "Hiển thị Stats Card",   "name": "show_stats_card",  "type": "true_false", "default_value": 1, "ui": 1 },
+              { "key": "field_fc_hero_autoplay_delay", "label": "Autoplay delay (ms)",    "name": "autoplay_delay",   "type": "number", "default_value": 5000, "min": 2000, "instructions": "Thời gian mỗi slide tính bằng millisecond. Mặc định 5000 = 5 giây." }
+            ]
+          },
+
+          {
+            "key": "layout_trust_bar",
+            "name": "trust_bar",
+            "label": "Trust Bar (dải thông tin cuộn)",
+            "display": "block",
+            "sub_fields": [
+              {
+                "key": "field_fc_trust_items",
+                "label": "Các mục",
+                "name": "items",
+                "type": "repeater",
+                "layout": "table",
+                "button_label": "Thêm mục",
+                "sub_fields": [
+                  { "key": "field_fc_trust_item_text", "label": "Nội dung", "name": "text", "type": "text", "required": 1 }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_services_grid",
+            "name": "services_grid",
+            "label": "Services Grid (lưới dịch vụ)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_svc_label",   "label": "Label nhỏ",         "name": "section_label", "type": "text" },
+              { "key": "field_fc_svc_title",   "label": "Tiêu đề section",   "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_svc_desc",    "label": "Mô tả section",     "name": "section_desc",  "type": "textarea", "rows": 2 },
+              { "key": "field_fc_svc_darkbg",  "label": "Nền tối",           "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_svc_columns", "label": "Số cột", "name": "columns", "type": "select",
+                "choices": { "2": "2 cột", "3": "3 cột", "4": "4 cột" }, "default_value": "3", "return_format": "value"
+              },
+              {
+                "key": "field_fc_svc_services",
+                "label": "Dịch vụ",
+                "name": "services",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm dịch vụ",
+                "sub_fields": [
+                  { "key": "field_fc_svc_s_title", "label": "Tên dịch vụ",   "name": "title",       "type": "text",     "required": 1 },
+                  { "key": "field_fc_svc_s_desc",  "label": "Mô tả",         "name": "description", "type": "textarea", "rows": 3 },
+                  { "key": "field_fc_svc_s_feats", "label": "Tính năng (mỗi dòng 1 mục)", "name": "features", "type": "textarea", "rows": 4, "instructions": "Mỗi dòng = 1 bullet point. Next.js sẽ tự tách theo newline." },
+                  { "key": "field_fc_svc_s_lt",    "label": "Text link",      "name": "link_text",   "type": "text",     "default_value": "Xem chi tiết" },
+                  { "key": "field_fc_svc_s_lu",    "label": "URL link",       "name": "link_url",    "type": "text" }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_two_column",
+            "name": "two_column",
+            "label": "Two Column (2 cột image + text)",
+            "display": "block",
+            "sub_fields": [
+              {
+                "key": "field_fc_2col_layout", "label": "Vị trí ảnh", "name": "layout", "type": "select",
+                "choices": { "image_left": "Ảnh bên trái", "image_right": "Ảnh bên phải" },
+                "default_value": "image_right", "return_format": "value"
+              },
+              { "key": "field_fc_2col_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              { "key": "field_fc_2col_label",  "label": "Label nhỏ",       "name": "section_label",   "type": "text" },
+              { "key": "field_fc_2col_title",  "label": "Tiêu đề",         "name": "section_title",   "type": "text", "required": 1 },
+              { "key": "field_fc_2col_desc",   "label": "Mô tả",           "name": "section_desc",    "type": "textarea", "rows": 3 },
+              {
+                "key": "field_fc_2col_features",
+                "label": "Danh sách tính năng",
+                "name": "features",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm mục",
+                "sub_fields": [
+                  { "key": "field_fc_2col_feat_title", "label": "Tiêu đề mục", "name": "title",       "type": "text",     "required": 1 },
+                  { "key": "field_fc_2col_feat_desc",  "label": "Mô tả mục",   "name": "description", "type": "textarea", "rows": 2 }
+                ]
+              },
+              { "key": "field_fc_2col_badge_num",   "label": "Số hiệu badge (vd: 10+)", "name": "badge_number", "type": "text" },
+              { "key": "field_fc_2col_badge_label", "label": "Nhãn badge",               "name": "badge_label",  "type": "text" }
+            ]
+          },
+
+          {
+            "key": "layout_team_grid",
+            "name": "team_grid",
+            "label": "Team Grid (đội ngũ)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_team_label",  "label": "Label nhỏ",       "name": "section_label", "type": "text" },
+              { "key": "field_fc_team_title",  "label": "Tiêu đề section", "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_team_desc",   "label": "Mô tả section",   "name": "section_desc",  "type": "textarea", "rows": 2 },
+              { "key": "field_fc_team_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_team_members",
+                "label": "Thành viên",
+                "name": "members",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm thành viên",
+                "sub_fields": [
+                  { "key": "field_fc_team_m_name",   "label": "Họ tên",       "name": "name",        "type": "text",     "required": 1 },
+                  { "key": "field_fc_team_m_role",   "label": "Chức vụ",      "name": "role",        "type": "text",     "required": 1 },
+                  { "key": "field_fc_team_m_desc",   "label": "Mô tả ngắn",   "name": "description", "type": "textarea", "rows": 2 },
+                  { "key": "field_fc_team_m_avatar", "label": "Ảnh đại diện", "name": "avatar",      "type": "image",    "return_format": "array", "preview_size": "thumbnail" }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_testimonials",
+            "name": "testimonials",
+            "label": "Testimonials (đánh giá khách hàng)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_testi_label",  "label": "Label nhỏ",       "name": "section_label", "type": "text" },
+              { "key": "field_fc_testi_title",  "label": "Tiêu đề section", "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_testi_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_testi_items",
+                "label": "Đánh giá",
+                "name": "testimonials",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm đánh giá",
+                "sub_fields": [
+                  { "key": "field_fc_testi_i_quote",   "label": "Nội dung",       "name": "quote",          "type": "textarea", "rows": 3, "required": 1 },
+                  { "key": "field_fc_testi_i_name",    "label": "Tên khách hàng", "name": "author_name",    "type": "text",     "required": 1 },
+                  { "key": "field_fc_testi_i_company", "label": "Công ty",        "name": "author_company", "type": "text" },
+                  { "key": "field_fc_testi_i_rating",  "label": "Rating (1–5)",   "name": "rating",         "type": "number",   "default_value": 5, "min": 1, "max": 5 }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_clients_logos",
+            "name": "clients_logos",
+            "label": "Clients Logos (logo khách hàng)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_clients_title",  "label": "Tiêu đề",  "name": "section_title",   "type": "text" },
+              { "key": "field_fc_clients_darkbg", "label": "Nền tối",  "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_clients_items",
+                "label": "Khách hàng",
+                "name": "clients",
+                "type": "repeater",
+                "layout": "table",
+                "button_label": "Thêm khách hàng",
+                "sub_fields": [
+                  { "key": "field_fc_clients_i_name", "label": "Tên công ty", "name": "name", "type": "text",  "required": 1 },
+                  { "key": "field_fc_clients_i_logo", "label": "Logo",        "name": "logo", "type": "image", "return_format": "array", "preview_size": "thumbnail" }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_faq_accordion",
+            "name": "faq_accordion",
+            "label": "FAQ Accordion",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_faq_label",  "label": "Label nhỏ",       "name": "section_label", "type": "text" },
+              { "key": "field_fc_faq_title",  "label": "Tiêu đề section", "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_faq_desc",   "label": "Mô tả section",   "name": "section_desc",  "type": "textarea", "rows": 2 },
+              { "key": "field_fc_faq_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_faq_items",
+                "label": "Câu hỏi & Trả lời",
+                "name": "faqs",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm câu hỏi",
+                "sub_fields": [
+                  { "key": "field_fc_faq_i_q", "label": "Câu hỏi",  "name": "question", "type": "text",     "required": 1 },
+                  { "key": "field_fc_faq_i_a", "label": "Trả lời",  "name": "answer",   "type": "textarea", "rows": 4, "required": 1 }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_cta_banner",
+            "name": "cta_banner",
+            "label": "CTA Banner",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_cta_head",   "label": "Tiêu đề",      "name": "headline",          "type": "text",     "required": 1 },
+              { "key": "field_fc_cta_desc",   "label": "Mô tả",        "name": "description",       "type": "textarea", "rows": 2 },
+              { "key": "field_fc_cta_1t",     "label": "CTA chính — Text", "name": "cta_primary_text",   "type": "text" },
+              { "key": "field_fc_cta_1l",     "label": "CTA chính — Link", "name": "cta_primary_link",   "type": "text" },
+              { "key": "field_fc_cta_2t",     "label": "CTA phụ — Text",   "name": "cta_secondary_text", "type": "text" },
+              { "key": "field_fc_cta_2l",     "label": "CTA phụ — Link",   "name": "cta_secondary_link", "type": "text" },
+              { "key": "field_fc_cta_darkbg", "label": "Nền tối",          "name": "dark_background",    "type": "true_false", "default_value": 1, "ui": 1 }
+            ]
+          },
+
+          {
+            "key": "layout_contact_form",
+            "name": "contact_form",
+            "label": "Contact Form",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_cf_label",     "label": "Label nhỏ",         "name": "section_label", "type": "text" },
+              { "key": "field_fc_cf_title",     "label": "Tiêu đề section",   "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_cf_darkbg",    "label": "Nền tối",           "name": "dark_background", "type": "true_false", "default_value": 1, "ui": 1 },
+              { "key": "field_fc_cf_form_id",   "label": "Contact Form 7 ID", "name": "cf7_form_id",   "type": "number", "instructions": "ID của form CF7 trong WP. Để trống để dùng CF7_DEFAULT_FORM_ID từ env." },
+              { "key": "field_fc_cf_services",  "label": "Danh sách dịch vụ (select)", "name": "cf7_services", "type": "textarea", "rows": 6, "instructions": "Mỗi dòng = 1 option trong dropdown dịch vụ. Để trống để ẩn select." },
+              { "key": "field_fc_cf_map",       "label": "Google Maps Embed URL", "name": "map_embed_url", "type": "url", "instructions": "Override map_embed_url từ Site Settings cho trang này. Để trống để dùng Site Settings." }
+            ]
+          },
+
+          {
+            "key": "layout_timeline",
+            "name": "timeline",
+            "label": "Timeline (lịch sử / mốc phát triển)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_tl_label",  "label": "Label nhỏ",       "name": "section_label", "type": "text" },
+              { "key": "field_fc_tl_title",  "label": "Tiêu đề section", "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_tl_desc",   "label": "Mô tả section",   "name": "section_desc",  "type": "textarea", "rows": 2 },
+              { "key": "field_fc_tl_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_tl_milestones",
+                "label": "Mốc thời gian",
+                "name": "milestones",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm mốc",
+                "sub_fields": [
+                  { "key": "field_fc_tl_m_year",  "label": "Năm",     "name": "year",        "type": "text",     "required": 1 },
+                  { "key": "field_fc_tl_m_title",  "label": "Tiêu đề", "name": "title",       "type": "text",     "required": 1 },
+                  { "key": "field_fc_tl_m_desc",   "label": "Mô tả",   "name": "description", "type": "textarea", "rows": 3 }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_values_grid",
+            "name": "values_grid",
+            "label": "Values Grid (giá trị cốt lõi)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_val_label",  "label": "Label nhỏ",       "name": "section_label", "type": "text" },
+              { "key": "field_fc_val_title",  "label": "Tiêu đề section", "name": "section_title", "type": "text", "required": 1 },
+              { "key": "field_fc_val_desc",   "label": "Mô tả section",   "name": "section_desc",  "type": "textarea", "rows": 2 },
+              { "key": "field_fc_val_darkbg", "label": "Nền tối",         "name": "dark_background", "type": "true_false", "default_value": 0, "ui": 1 },
+              {
+                "key": "field_fc_val_items",
+                "label": "Giá trị",
+                "name": "values",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Thêm giá trị",
+                "sub_fields": [
+                  { "key": "field_fc_val_i_icon",  "label": "Icon (emoji)",  "name": "icon",        "type": "text" },
+                  { "key": "field_fc_val_i_title", "label": "Tên giá trị",   "name": "title",       "type": "text",     "required": 1 },
+                  { "key": "field_fc_val_i_desc",  "label": "Mô tả",         "name": "description", "type": "textarea", "rows": 2 }
+                ]
+              }
+            ]
+          },
+
+          {
+            "key": "layout_latest_posts",
+            "name": "latest_posts",
+            "label": "Latest Posts (tin tức mới nhất)",
+            "display": "block",
+            "sub_fields": [
+              { "key": "field_fc_lp_label",    "label": "Label nhỏ",         "name": "section_label",  "type": "text" },
+              { "key": "field_fc_lp_title",    "label": "Tiêu đề section",   "name": "section_title",  "type": "text", "required": 1 },
+              { "key": "field_fc_lp_desc",     "label": "Mô tả section",     "name": "section_desc",   "type": "textarea", "rows": 2 },
+              { "key": "field_fc_lp_darkbg",   "label": "Nền tối",           "name": "dark_background","type": "true_false", "default_value": 0, "ui": 1 },
+              { "key": "field_fc_lp_count",    "label": "Số bài hiển thị",   "name": "posts_count",    "type": "number", "default_value": 4, "min": 1, "max": 12 },
+              { "key": "field_fc_lp_cat",      "label": "Slug danh mục (lọc)", "name": "category_slug","type": "text", "instructions": "Slug của category trong WP. Để trống để lấy tất cả bài viết." },
+              { "key": "field_fc_lp_va_text",  "label": "Text nút Xem tất cả", "name": "view_all_text","type": "text", "default_value": "Xem tất cả tin tức" },
+              { "key": "field_fc_lp_va_link",  "label": "Link Xem tất cả",   "name": "view_all_link",  "type": "text", "default_value": "/tin-tuc" }
+            ]
+          }
+
+        ]
       }
-    ]
-  ],
-  "menu_order": 0,
-  "position": "normal",
-  "style": "default",
-  "label_placement": "top",
-  "instruction_placement": "label",
-  "active": true,
-  "_instructions": "Import file này vào ACF: Custom Fields > Tools > Import Field Groups"
-}
+    ],
+    "location": [[{ "param": "post_type", "operator": "==", "value": "page" }]],
+    "menu_order": 1, "position": "normal", "style": "default",
+    "label_placement": "top", "instruction_placement": "label", "active": true
+  }
+]

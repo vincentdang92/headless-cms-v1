@@ -48,7 +48,13 @@
     "home": "Trang chủ",
     "news": "Tin tức",
     "prev": "← Trước",
-    "next": "Sau →"
+    "next": "Sau →",
+    "searchPlaceholder": "Tìm kiếm tin tức...",
+    "searching": "Đang tìm kiếm...",
+    "searchResults": "kết quả cho",
+    "noSearchResults": "Không tìm thấy bài viết nào.",
+    "noSearchResultsHint": "Thử từ khóa khác hoặc kiểm tra lại chính tả.",
+    "clearSearch": "Xóa tìm kiếm"
   },
   "NotFound": {
     "title": "404 — Không tìm thấy trang",

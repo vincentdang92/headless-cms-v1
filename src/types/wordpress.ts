@@ -110,6 +110,13 @@ export interface WPMenuItem {
   children?: WPMenuItem[]
 }
 
+// Shape returned by /headless/v1/menus/{location}
+export interface NavItem {
+  label: string
+  href: string
+  children?: NavItem[]
+}
+
 export interface WPQueryParams {
   page?: number
   per_page?: number

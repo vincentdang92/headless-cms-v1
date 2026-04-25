@@ -1,8 +1,34 @@
 import type { SiteSettings } from '@/types/site-settings'
 import { DEFAULT_SITE_SETTINGS } from '@/config/defaults'
 
+// ACF image field trả về object { url, alt, width, height } hoặc string URL
+type AcfImage = { url?: string; alt?: string; width?: number; height?: number } | string | null | undefined
+
+function parseAcfImage(
+  raw: AcfImage,
+  fallbackAlt: string,
+  defaultW: number,
+  defaultH: number
+): SiteSettings['logo'] {
+  if (!raw) return null
+  const url    = typeof raw === 'string' ? raw : raw.url
+  if (!url) return null
+  const alt    = typeof raw === 'object' ? (raw.alt    ?? fallbackAlt) : fallbackAlt
+  const width  = typeof raw === 'object' ? (raw.width  ?? defaultW)    : defaultW
+  const height = typeof raw === 'object' ? (raw.height ?? defaultH)    : defaultH
+  return { url, alt, width, height }
+}
+
 const API_URL = process.env.WORDPRESS_API_URL!
+const WP_API_SECRET = process.env.WP_API_SECRET
 const WP_TIMEOUT_MS = 5_000
+const IS_DEV = process.env.NODE_ENV === 'development'
+
+function wpHeaders(): HeadersInit {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (WP_API_SECRET) headers['X-WP-Secret'] = WP_API_SECRET
+  return headers
+}
 
 // ─── Fetch từ ACF Options Page ─────────────────────────────────────────────
 // Yêu cầu WordPress: plugin ACF (free hoặc Pro) + ACF Options Page được đăng ký
@@ -10,11 +36,21 @@ const WP_TIMEOUT_MS = 5_000
 
 export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
   const langSuffix = locale && locale !== 'vi' ? `?lang=${locale}` : ''
+  // /headless/v1/settings — custom endpoint (works with ACF Free & Pro)
+  // Fallback: /acf/v3/options/options — only available with ACF Pro
+  const fullUrl = `${API_URL}/headless/v1/settings${langSuffix}`
   try {
-    const res = await fetch(`${API_URL}/acf/v3/options/options${langSuffix}`, {
+    const ts = Date.now()
+    const res = await fetch(fullUrl, {
       next: { revalidate: 3600, tags: ['site-settings'] },
+      headers: wpHeaders(),
       signal: AbortSignal.timeout(WP_TIMEOUT_MS),
     })
+    if (IS_DEV) {
+      import('./dev-store').then(({ appendLog }) =>
+        appendLog({ method: 'GET', url: fullUrl, path: fullUrl.replace(API_URL, ''), status: res.status, ms: Date.now() - ts, ts })
+      )
+    }
     if (!res.ok) return DEFAULT_SITE_SETTINGS
 
     const data = await res.json()
@@ -25,18 +61,8 @@ export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
       siteTagline: acf.site_tagline || DEFAULT_SITE_SETTINGS.siteTagline,
       siteDescription: acf.site_description || DEFAULT_SITE_SETTINGS.siteDescription,
 
-      logo: acf.site_logo?.url
-        ? {
-            url: acf.site_logo.url,
-            alt: acf.site_logo.alt || acf.site_name || '',
-            width: acf.site_logo.width || 200,
-            height: acf.site_logo.height || 60,
-          }
-        : null,
-
-      favicon: acf.site_favicon?.url
-        ? { url: acf.site_favicon.url, alt: '', width: 32, height: 32 }
-        : null,
+      logo: parseAcfImage(acf.site_logo, acf.site_name || '', 200, 60),
+      favicon: parseAcfImage(acf.site_favicon, '', 32, 32),
 
       colors: {
         primary: acf.primary_color || DEFAULT_SITE_SETTINGS.colors.primary,
@@ -81,7 +107,12 @@ export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
         bodyScripts: acf.body_scripts || '',
       },
     }
-  } catch {
+  } catch (e) {
+    if (IS_DEV) {
+      import('./dev-store').then(({ appendLog }) =>
+        appendLog({ method: 'GET', url: fullUrl, path: fullUrl.replace(API_URL, ''), status: null, ms: 0, ts: Date.now(), error: String(e) })
+      )
+    }
     return DEFAULT_SITE_SETTINGS
   }
 }

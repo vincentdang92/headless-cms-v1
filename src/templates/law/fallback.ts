@@ -6,16 +6,44 @@ import type { FlexibleContent } from '@/blocks/types'
 export const LAW_HOME_FALLBACK: FlexibleContent = [
   {
     acf_fc_layout: 'hero',
-    badge_text: '⚖️ Hơn 10 Năm Kinh Nghiệm Pháp Lý',
-    headline: 'Giải Pháp Pháp Lý Toàn Diện Cho',
-    headline_highlight: 'Doanh Nghiệp',
-    slogan: 'Minh bạch – Chuyên nghiệp – Tận tâm',
-    description:
-      'Đồng hành cùng hàng trăm doanh nghiệp trong hành trình thành lập, vận hành và phát triển bền vững. Chi phí tối ưu, xử lý nhanh chóng.',
-    cta_primary_text: 'Tư Vấn Miễn Phí',
-    cta_primary_link: '#contact',
-    cta_secondary_text: 'Xem Dịch Vụ →',
-    cta_secondary_link: '/dich-vu',
+    slides: [
+      {
+        badge_text: '⚖️ Hơn 10 Năm Kinh Nghiệm Pháp Lý',
+        headline: 'Giải Pháp Pháp Lý Toàn Diện Cho',
+        headline_highlight: 'Doanh Nghiệp',
+        slogan: 'Minh bạch – Chuyên nghiệp – Tận tâm',
+        description:
+          'Đồng hành cùng hàng trăm doanh nghiệp trong hành trình thành lập, vận hành và phát triển bền vững. Chi phí tối ưu, xử lý nhanh chóng.',
+        cta_primary_text: 'Tư Vấn Miễn Phí',
+        cta_primary_link: '#contact',
+        cta_secondary_text: 'Xem Dịch Vụ →',
+        cta_secondary_link: '/dich-vu',
+      },
+      {
+        badge_text: '🏢 Thành Lập Doanh Nghiệp Nhanh',
+        headline: 'Hoàn Thiện Hồ Sơ Trong',
+        headline_highlight: '1–3 Ngày',
+        slogan: 'Trọn gói – Không phát sinh chi phí ẩn',
+        description:
+          'Thành lập công ty TNHH, cổ phần, hộ kinh doanh và doanh nghiệp FDI. Đăng ký MST, con dấu, tài khoản ngân hàng trọn gói.',
+        cta_primary_text: 'Thành Lập Ngay',
+        cta_primary_link: '/dich-vu/thanh-lap-tnhh',
+        cta_secondary_text: 'Xem Gói Dịch Vụ',
+        cta_secondary_link: '/dich-vu',
+      },
+      {
+        badge_text: '🔒 Bảo Hộ Thương Hiệu & SHTT',
+        headline: 'Đăng Ký Độc Quyền',
+        headline_highlight: 'Nhãn Hiệu Toàn Quốc',
+        slogan: 'Bảo vệ tài sản trí tuệ từ ngày đầu',
+        description:
+          'Tra cứu, đánh giá khả năng đăng ký và nộp đơn tại NOIP. Theo dõi và xử lý tranh chấp nhãn hiệu trên toàn quốc.',
+        cta_primary_text: 'Đăng Ký Bảo Hộ',
+        cta_primary_link: '/dich-vu/bao-ho-thuong-hieu',
+        cta_secondary_text: 'Tìm Hiểu Thêm',
+        cta_secondary_link: '/dich-vu',
+      },
+    ],
     stats: [
       { value: '500+', label: 'DN thành lập' },
       { value: '10+', label: 'Năm kinh nghiệm' },
@@ -30,6 +58,7 @@ export const LAW_HOME_FALLBACK: FlexibleContent = [
       { text: 'Bảo vệ thương hiệu & sở hữu trí tuệ' },
     ],
     show_stats_card: true,
+    autoplay_delay: 5000,
   },
   {
     acf_fc_layout: 'trust_bar',
@@ -138,6 +167,38 @@ export const LAW_HOME_FALLBACK: FlexibleContent = [
     ],
   },
   {
+    acf_fc_layout: 'testimonials',
+    section_label: 'Khách Hàng Nói Gì',
+    section_title: 'Niềm Tin Được Xây Dựng Qua Từng Hồ Sơ',
+    dark_background: true,
+    testimonials: [
+      {
+        quote: 'Công ty hỗ trợ mình thành lập công ty TNHH chỉ trong 2 ngày làm việc. Toàn bộ thủ tục được xử lý trọn gói, không phát sinh thêm bất kỳ chi phí nào so với báo giá ban đầu. Rất chuyên nghiệp và đáng tin cậy.',
+        author_name: 'Nguyễn Minh Tuấn',
+        author_company: 'CEO, Công ty TNHH Thương Mại Minh Tuấn',
+        rating: 5,
+      },
+      {
+        quote: 'Là doanh nghiệp FDI, chúng tôi cần đơn vị tư vấn hiểu rõ luật đầu tư nước ngoài. Đội ngũ ở đây xử lý hồ sơ GCNĐT rất bài bản, tư vấn tận tình từng bước. Chúng tôi đã tin tưởng giao phó hoàn toàn.',
+        author_name: 'Kim Ji-Hoon',
+        author_company: 'Giám đốc, Korea Tech Vietnam Co., Ltd',
+        rating: 5,
+      },
+      {
+        quote: 'Dịch vụ kế toán thuế hàng tháng của công ty giúp chúng tôi luôn tuân thủ đúng hạn, không lo bị phạt. Đặc biệt trong mùa quyết toán năm, nhóm kế toán làm việc rất hiệu quả và phản hồi nhanh.',
+        author_name: 'Trần Thị Lan Anh',
+        author_company: 'Giám đốc Tài chính, Chuỗi F&B Ngon House',
+        rating: 5,
+      },
+      {
+        quote: 'Nhờ đăng ký bảo hộ nhãn hiệu kịp thời, thương hiệu của chúng tôi đã được bảo vệ trước một đối thủ có hành vi xâm phạm. Đội pháp lý xử lý tranh chấp rất sắc bén và bảo vệ lợi ích của chúng tôi đến cùng.',
+        author_name: 'Lê Hoàng Phúc',
+        author_company: 'Founder, Startup EduTech VN',
+        rating: 5,
+      },
+    ],
+  },
+  {
     acf_fc_layout: 'faq_accordion',
     section_label: 'FAQ',
     section_title: 'Câu Hỏi Thường Gặp',
@@ -151,6 +212,16 @@ export const LAW_HOME_FALLBACK: FlexibleContent = [
       { question: 'Dịch vụ kế toán thuế hàng tháng có những gì?', answer: 'Bao gồm: Khai báo thuế GTGT, TNCN hàng tháng; lập báo cáo tài chính quý; quyết toán thuế năm; tư vấn thuế thường xuyên; hỗ trợ kiểm tra thuế khi cần.' },
       { question: 'Tôi có thể thay đổi ngành nghề kinh doanh sau khi thành lập không?', answer: 'Hoàn toàn có thể. Thủ tục thay đổi GPĐKKD thường mất 3–7 ngày. Chúng tôi hỗ trợ trọn gói thủ tục này với chi phí hợp lý.' },
     ],
+  },
+  {
+    acf_fc_layout: 'latest_posts',
+    section_label: 'Kiến Thức Pháp Lý',
+    section_title: 'Tin Tức & Cập Nhật Pháp Luật',
+    section_desc: 'Theo dõi những thay đổi pháp lý mới nhất ảnh hưởng đến doanh nghiệp của bạn',
+    dark_background: false,
+    posts_count: 4,
+    view_all_text: 'Xem tất cả tin tức',
+    view_all_link: '/tin-tuc',
   },
   {
     acf_fc_layout: 'cta_banner',

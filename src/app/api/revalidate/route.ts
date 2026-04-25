@@ -14,16 +14,21 @@ export async function POST(request: NextRequest) {
       post_type?: string
       post_slug?: string
       // scope: 'settings' → chỉ revalidate site settings (logo, màu, menu)
-      scope?: 'settings' | 'all'
+      scope?: 'settings' | 'menus' | 'all'
     }
 
     const revalidated: string[] = []
 
-    // Revalidate site-wide settings (ACF Options thay đổi)
     if (scope === 'settings' || scope === 'all') {
       revalidateTag('site-settings', 'max')
       revalidatePath('/', 'layout')
       revalidated.push('site-settings', 'layout')
+    }
+
+    if (scope === 'menus' || scope === 'all') {
+      revalidateTag('menus', 'max')
+      revalidatePath('/', 'layout')
+      revalidated.push('menus', 'layout')
     }
 
     // Revalidate post/page content

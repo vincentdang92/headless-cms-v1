@@ -5,12 +5,35 @@ import type {
   WPTag,
   WPQueryParams,
   WPPaginatedResponse,
+  NavItem,
 } from '@/types/wordpress'
 import type { FlexibleContent } from '@/blocks/types'
 
 const API_URL = process.env.WORDPRESS_API_URL!
+const WP_API_SECRET = process.env.WP_API_SECRET
+const IS_DEV = process.env.NODE_ENV === 'development'
 
 const WP_TIMEOUT_MS = 5_000
+
+function wpHeaders(): HeadersInit {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (WP_API_SECRET) headers['X-WP-Secret'] = WP_API_SECRET
+  return headers
+}
+
+async function devLog(fullUrl: string, method: string, fn: () => Promise<Response>): Promise<Response> {
+  if (!IS_DEV) return fn()
+  const { appendLog } = await import('./dev-store')
+  const ts = Date.now()
+  try {
+    const res = await fn()
+    appendLog({ method, url: fullUrl, path: fullUrl.replace(API_URL, ''), status: res.status, ms: Date.now() - ts, ts })
+    return res
+  } catch (e) {
+    appendLog({ method, url: fullUrl, path: fullUrl.replace(API_URL, ''), status: null, ms: Date.now() - ts, ts, error: String(e) })
+    throw e
+  }
+}
 
 // Appends ?lang=en for non-default locale (requires Polylang on WordPress)
 function appendLang(url: string, locale?: string): string {
@@ -20,11 +43,13 @@ function appendLang(url: string, locale?: string): string {
 
 async function wpFetch<T>(endpoint: string, revalidate = 3600, locale?: string): Promise<T> {
   const url = appendLang(`${API_URL}${endpoint}`, locale)
-  const res = await fetch(url, {
-    next: { revalidate },
-    headers: { 'Content-Type': 'application/json' },
-    signal: AbortSignal.timeout(WP_TIMEOUT_MS),
-  })
+  const res = await devLog(url, 'GET', () =>
+    fetch(url, {
+      next: { revalidate },
+      headers: wpHeaders(),
+      signal: AbortSignal.timeout(WP_TIMEOUT_MS),
+    })
+  )
 
   if (!res.ok) {
     throw new Error(`WordPress API error: ${res.status} ${res.statusText} — ${url}`)
@@ -60,12 +85,14 @@ export async function getPosts(
   if (categories?.length) query.set('categories', categories.join(','))
   if (locale && locale !== 'vi') query.set('lang', locale)
 
-  const url = `/wp/v2/posts?${query}`
-  const res = await fetch(`${API_URL}${url}`, {
-    next: { revalidate: 3600 },
-    headers: { 'Content-Type': 'application/json' },
-    signal: AbortSignal.timeout(WP_TIMEOUT_MS),
-  })
+  const fullUrl = `${API_URL}/wp/v2/posts?${query}`
+  const res = await devLog(fullUrl, 'GET', () =>
+    fetch(fullUrl, {
+      next: { revalidate: 3600 },
+      headers: wpHeaders(),
+      signal: AbortSignal.timeout(WP_TIMEOUT_MS),
+    })
+  )
 
   if (!res.ok) throw new Error(`WordPress API error: ${res.status}`)
 
@@ -124,21 +151,24 @@ export async function getTags(locale?: string): Promise<WPTag[]> {
 }
 
 // ─── ACF Flexible Content ─────────────────────────────────────────────────────
-// Fetch ACF flexible_content field từ một WP Page (slug)
-// Endpoint: /acf/v3/pages?slug={slug}  hoặc /wp/v2/pages?slug={slug} (ACF exposes acf field)
+// Dùng native WP REST API — ACF Pro 5.11+ tự động thêm acf field vào response
+// Yêu cầu: bật "Show in REST API" trong ACF → field group → Group Settings
+// Field name phải khớp với ACF: "flexible_content" (xem acf-fields-export.json)
 
 export async function getFlexiblePage(slug: string, locale?: string): Promise<FlexibleContent | null> {
+  const apiUrl = appendLang(`${API_URL}/wp/v2/pages?slug=${slug}&_fields=id,acf`, locale)
   try {
-    // ACF REST API v3 trả về acf fields trực tiếp
-    const apiUrl = appendLang(`${API_URL}/acf/v3/pages?slug=${slug}`, locale)
-    const res = await fetch(apiUrl, {
-      next: { revalidate: 3600, tags: ['flexible-content', `page-${slug}`] },
-      signal: AbortSignal.timeout(WP_TIMEOUT_MS),
-    })
+    const res = await devLog(apiUrl, 'GET', () =>
+      fetch(apiUrl, {
+        next: { revalidate: 3600, tags: ['flexible-content', `page-${slug}`] },
+        headers: wpHeaders(),
+        signal: AbortSignal.timeout(WP_TIMEOUT_MS),
+      })
+    )
     if (!res.ok) return null
     const data = await res.json()
     const page = Array.isArray(data) ? data[0] : data
-    return (page?.acf?.page_sections as FlexibleContent) ?? null
+    return (page?.acf?.flexible_content as FlexibleContent) ?? null
   } catch {
     return null
   }
@@ -164,4 +194,25 @@ export function getPostCategories(post: WPPost): WPCategory[] {
 
 export function getPostAuthor(post: WPPost): string {
   return post._embedded?.author?.[0]?.name ?? 'Admin'
+}
+
+// ─── Nav Menus ────────────────────────────────────────────────────────────────
+// Fetch từ custom endpoint /headless/v1/menus/{location}
+// Trả [] nếu menu chưa được tạo trong WP → caller fallback về DEFAULT_NAV
+
+export async function getMenu(location: string, locale?: string): Promise<NavItem[]> {
+  const url = appendLang(`${API_URL}/headless/v1/menus/${location}`, locale)
+  try {
+    const res = await devLog(url, 'GET', () =>
+      fetch(url, {
+        next: { revalidate: 3600, tags: ['menus'] },
+        headers: wpHeaders(),
+        signal: AbortSignal.timeout(WP_TIMEOUT_MS),
+      })
+    )
+    if (!res.ok) return []
+    return res.json()
+  } catch {
+    return []
+  }
 }

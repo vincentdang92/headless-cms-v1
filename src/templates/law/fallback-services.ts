@@ -3,16 +3,20 @@ import type { FlexibleContent } from '@/blocks/types'
 export const LAW_SERVICES_FALLBACK: FlexibleContent = [
   {
     acf_fc_layout: 'hero',
-    badge_text: '⚖️ Dịch Vụ Pháp Lý',
-    headline: 'Giải Pháp Toàn Diện Cho',
-    headline_highlight: 'Mọi Doanh Nghiệp',
-    slogan: 'Từ thành lập đến vận hành — chúng tôi lo trọn',
-    description:
-      'Chúng tôi cung cấp đầy đủ các dịch vụ pháp lý, kế toán và bảo hộ thương hiệu với chi phí tối ưu và tiến độ nhanh chóng.',
-    cta_primary_text: 'Tư Vấn Ngay',
-    cta_primary_link: '/lien-he',
-    cta_secondary_text: 'Xem Bảng Giá →',
-    cta_secondary_link: '#services',
+    slides: [
+      {
+        badge_text: '⚖️ Dịch Vụ Pháp Lý',
+        headline: 'Giải Pháp Toàn Diện Cho',
+        headline_highlight: 'Mọi Doanh Nghiệp',
+        slogan: 'Từ thành lập đến vận hành — chúng tôi lo trọn',
+        description:
+          'Chúng tôi cung cấp đầy đủ các dịch vụ pháp lý, kế toán và bảo hộ thương hiệu với chi phí tối ưu và tiến độ nhanh chóng.',
+        cta_primary_text: 'Tư Vấn Ngay',
+        cta_primary_link: '/lien-he',
+        cta_secondary_text: 'Xem Bảng Giá →',
+        cta_secondary_link: '#services',
+      },
+    ],
     stats: [
       { value: '6', label: 'Nhóm dịch vụ' },
       { value: '500+', label: 'Hồ sơ hoàn thành' },
