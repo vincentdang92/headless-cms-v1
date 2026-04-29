@@ -33,9 +33,10 @@ export default async function Pagination({ currentPage, totalPages, basePath }: 
           className={cn(
             'w-9 h-9 flex items-center justify-center text-sm rounded-lg border transition-colors',
             p === currentPage
-              ? 'bg-blue-700 text-white border-blue-700'
+              ? 'text-white'
               : 'border-gray-200 text-gray-600 hover:bg-gray-50'
           )}
+          style={p === currentPage ? { background: 'var(--cp)', borderColor: 'var(--cp)' } : undefined}
         >
           {p}
         </Link>

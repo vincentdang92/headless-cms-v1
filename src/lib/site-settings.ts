@@ -106,6 +106,29 @@ export async function getSiteSettings(locale?: string): Promise<SiteSettings> {
         headScripts: acf.head_scripts || '',
         bodyScripts: acf.body_scripts || '',
       },
+
+      heroVariant: (['split', 'centered', 'image_bg', 'minimal'].includes(acf.hero_variant)
+        ? acf.hero_variant
+        : DEFAULT_SITE_SETTINGS.heroVariant) as SiteSettings['heroVariant'],
+
+      showPostFeaturedImage: acf.show_post_featured_image !== false,
+
+      tocScrollOffset: Number.isFinite(Number(acf.toc_scroll_offset))
+        ? Math.max(0, Number(acf.toc_scroll_offset))
+        : DEFAULT_SITE_SETTINGS.tocScrollOffset,
+      tocScrollDuration: Number.isFinite(Number(acf.toc_scroll_duration))
+        ? Math.max(0, Number(acf.toc_scroll_duration))
+        : DEFAULT_SITE_SETTINGS.tocScrollDuration,
+
+      showNewsSidebar: acf.show_news_sidebar !== false,
+
+      weather: {
+        provider: (['auto', 'openweathermap', 'weatherapi'] as const).includes(acf.weather_provider)
+          ? (acf.weather_provider as SiteSettings['weather']['provider'])
+          : 'auto',
+        apiKey: acf.weather_api_key || '',
+        locationOverride: acf.weather_location_override || '',
+      },
     }
   } catch (e) {
     if (IS_DEV) {

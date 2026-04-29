@@ -27,7 +27,7 @@ export default function BlockRenderer({ blocks, settings }: Props) {
 
         switch (block.acf_fc_layout) {
           case 'hero':
-            return <HeroBlock key={key} block={block} />
+            return <HeroBlock key={key} block={block} settings={settings} />
           case 'trust_bar':
             return <TrustBarBlock key={key} block={block} />
           case 'services_grid':

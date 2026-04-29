@@ -11,6 +11,7 @@ export interface WPCategory {
   name: string
   slug: string
   count: number
+  description?: string
 }
 
 export interface WPTag {
@@ -47,10 +48,13 @@ export interface WPRankMathSeo {
   canonical_url?: string
   og_title?: string
   og_description?: string
-  og_image?: Array<{ url: string; width?: number; height?: number }>
+  // RankMath trả về string URL (khác Yoast là array of objects)
+  og_image?: string | Array<{ url: string; width?: number; height?: number }>
   twitter_card?: string
   twitter_title?: string
+  tw_title?: string
   twitter_description?: string
+  tw_description?: string
   schema?: object
 }
 
@@ -66,8 +70,10 @@ export interface WPPost {
   featured_media: number
   // Yoast SEO
   yoast_head_json?: WPYoastHeadJson
-  // RankMath SEO
-  rank_math_seo?: WPRankMathSeo
+  // RankMath SEO — 3 possible keys depending on version / config
+  rm_head?: WPRankMathSeo       // custom field từ functions.php (ưu tiên)
+  rank_math?: WPRankMathSeo     // built-in RankMath REST field
+  rank_math_seo?: WPRankMathSeo // older RankMath versions
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string

@@ -40,7 +40,13 @@
       "Bash(node -e \"const p = require\\('./node_modules/swiper/package.json'\\); console.log\\(JSON.stringify\\(p.exports['./css'], null, 2\\)\\)\")",
       "Bash(node -e \"const p = require\\('./node_modules/swiper/package.json'\\); ['./css/pagination','./css/effect-fade'].forEach\\(k => console.log\\(k, JSON.stringify\\(p.exports[k]\\)\\)\\)\")",
       "Bash(node -e \"const t = require\\('./node_modules/next/dist/compiled/@next/font/dist/google/index.d.ts'\\) \")",
-      "WebFetch(domain:www.advancedcustomfields.com)"
+      "WebFetch(domain:www.advancedcustomfields.com)",
+      "Bash(rtk ls *)",
+      "Bash(node -e \"const t = require\\('./node_modules/@ducanh2912/next-pwa/dist/index.js'\\); console.log\\('ok'\\)\")",
+      "Bash(node -e \"const t = require\\('./node_modules/@ducanh2912/next-pwa/dist/index.d.ts'\\); \")",
+      "Bash(rtk grep *)",
+      "Bash(rtk find *)",
+      "Bash(rtk tsc *)"
     ]
   }
 }

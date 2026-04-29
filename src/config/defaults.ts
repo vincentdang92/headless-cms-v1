@@ -27,6 +27,16 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     linkedinLink: '',
     mapEmbedUrl: '',
   },
+  heroVariant: 'split',
+  showPostFeaturedImage: true,
+  tocScrollOffset: 96,
+  tocScrollDuration: 700,
+  showNewsSidebar: true,
+  weather: {
+    provider: 'auto',
+    apiKey: '',
+    locationOverride: '',
+  },
   topbar: { enabled: true, text: '' },
   footer: {
     about: 'Đồng hành cùng khách hàng với dịch vụ chuyên nghiệp và tận tâm.',

@@ -7,6 +7,7 @@ import { useRouter, usePathname, Link } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 import type { SiteSettings } from '@/types/site-settings'
 import type { NavItem } from '@/types/wordpress'
+import NotificationBell from '@/components/layout/NotificationBell'
 
 export type { NavItem }
 
@@ -422,6 +423,7 @@ export default function Header({ settings, nav, locale, multilingualEnabled = fa
 
             <li className="flex items-center gap-2 ml-2">
               {multilingualEnabled && <LanguageSwitcher locale={locale} />}
+              <NotificationBell />
               <Link
                 href="/lien-he"
                 className="px-4 py-2 text-sm font-bold text-white rounded-lg transition-all hover:opacity-90 hover:-translate-y-px"
@@ -432,9 +434,10 @@ export default function Header({ settings, nav, locale, multilingualEnabled = fa
             </li>
           </ul>
 
-          {/* Mobile: lang + hamburger */}
+          {/* Mobile: lang + bell + hamburger */}
           <div className="md:hidden flex items-center gap-2">
             {multilingualEnabled && <LanguageSwitcher locale={locale} />}
+            <NotificationBell />
             <button
               className="p-2 text-gray-600 rounded-lg hover:bg-gray-50"
               onClick={() => setMenuOpen(v => !v)}

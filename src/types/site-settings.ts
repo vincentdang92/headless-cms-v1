@@ -43,6 +43,12 @@ export interface SiteScripts {
   bodyScripts: string
 }
 
+export interface SiteWeather {
+  provider: 'auto' | 'openweathermap' | 'weatherapi'
+  apiKey: string
+  locationOverride: string
+}
+
 export interface SiteSettings {
   siteName: string
   siteTagline: string
@@ -56,6 +62,12 @@ export interface SiteSettings {
   topbar: SiteTopbar
   footer: SiteFooter
   scripts: SiteScripts
+  heroVariant: 'split' | 'centered' | 'image_bg' | 'minimal'
+  showPostFeaturedImage: boolean
+  tocScrollOffset: number
+  tocScrollDuration: number
+  showNewsSidebar: boolean
+  weather: SiteWeather
 }
 
 // ─── SEO Types ────────────────────────────────────────────────────────────────

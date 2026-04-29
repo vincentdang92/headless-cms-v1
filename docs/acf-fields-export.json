@@ -39,6 +39,34 @@
       { "key": "field_tab_header", "label": "Header", "name": "", "type": "tab", "placement": "top" },
       { "key": "field_topbar_enabled", "label": "Hiển thị Topbar", "name": "topbar_enabled", "type": "true_false", "default_value": 1, "ui": 1, "instructions": "Thanh thông tin nhỏ phía trên header (địa chỉ, hotline)" },
       { "key": "field_topbar_text", "label": "Nội dung Topbar tùy chỉnh", "name": "topbar_text", "type": "text", "placeholder": "🎉 Ưu đãi tháng 12 — Giảm 30% dịch vụ", "instructions": "Để trống để hiển thị địa chỉ và email mặc định" },
+      {
+        "key": "field_hero_variant", "label": "Kiểu Hero mặc định", "name": "hero_variant", "type": "select",
+        "choices": {
+          "split":    "Split — Dark 2-col, stats card bên phải (mặc định)",
+          "centered": "Centered — Dark, căn giữa, stats row phía dưới",
+          "image_bg": "Image BG — Ảnh nền mỗi slide + overlay tối",
+          "minimal":  "Minimal — Nền sáng, 2-col, phù hợp tech / healthcare"
+        },
+        "default_value": "split", "allow_null": 0, "return_format": "value",
+        "instructions": "Variant mặc định cho toàn site. Block Hero trong từng trang có thể override riêng tại trường 'Kiểu hiển thị (Variant)'."
+      },
+      { "key": "field_tab_news", "label": "Tin tức", "name": "", "type": "tab", "placement": "top" },
+      { "key": "field_show_post_featured_image", "label": "Hiển thị ảnh đại diện trong trang chi tiết tin", "name": "show_post_featured_image", "type": "true_false", "default_value": 1, "ui": 1, "instructions": "Tắt nếu muốn ẩn ảnh featured ở đầu bài (vẫn dùng cho card list & OG image)" },
+      { "key": "field_toc_scroll_offset", "label": "Khoảng đệm khi scroll TOC (px)", "name": "toc_scroll_offset", "type": "number", "default_value": 96, "min": 0, "max": 300, "step": 4, "append": "px", "instructions": "Bù chiều cao header sticky để heading không bị che. Đo bằng DevTools: <header> height + padding mong muốn (vd: header 64px + 32px = 96)." },
+      { "key": "field_toc_scroll_duration", "label": "Thời gian animate scroll (ms)", "name": "toc_scroll_duration", "type": "number", "default_value": 700, "min": 0, "max": 3000, "step": 50, "append": "ms", "instructions": "Đặt 0 để tắt animate (jump tức thì). 400-800ms là khoảng thoải mái nhất. Trên 1500ms cảm thấy chậm." },
+      { "key": "field_show_news_sidebar", "label": "Hiển thị Sidebar trang danh sách tin tức", "name": "show_news_sidebar", "type": "true_false", "default_value": 1, "ui": 1, "instructions": "Bật → hiển thị sidebar (Thời tiết + Lịch) ở trang /tin-tuc và /danh-muc/[slug]. Tắt → layout full-width." },
+      {
+        "key": "field_weather_provider", "label": "Nhà cung cấp thời tiết", "name": "weather_provider", "type": "select",
+        "choices": {
+          "auto":            "Tự động (ipapi.co + Open-Meteo — miễn phí, không cần key)",
+          "openweathermap":  "OpenWeatherMap (openweathermap.org)",
+          "weatherapi":      "WeatherAPI.com (weatherapi.com)"
+        },
+        "default_value": "auto", "allow_null": 0, "return_format": "value",
+        "instructions": "Đổi provider nếu API miễn phí bị lỗi 429 (vượt giới hạn). Cần điền API Key ở trường bên dưới khi chọn provider trả phí."
+      },
+      { "key": "field_weather_api_key", "label": "API Key thời tiết", "name": "weather_api_key", "type": "password", "instructions": "Chỉ cần khi dùng OpenWeatherMap hoặc WeatherAPI.com. Để trống nếu dùng Tự động. Khuyến nghị: đặt qua env var WEATHER_API_KEY trong .env.local để bảo mật hơn." },
+      { "key": "field_weather_location_override", "label": "Cố định vị trí thời tiết", "name": "weather_location_override", "type": "text", "placeholder": "Hà Nội", "instructions": "Để trống để tự phát hiện theo IP người dùng. Điền tên thành phố nếu muốn cố định (vd: 'Hà Nội', 'Ho Chi Minh City', 'Đà Nẵng')." },
       { "key": "field_tab_footer", "label": "Footer", "name": "", "type": "tab", "placement": "top" },
       { "key": "field_footer_about", "label": "Giới thiệu ngắn (Footer)", "name": "footer_about", "type": "textarea", "rows": 3, "placeholder": "Mô tả ngắn về công ty, hiển thị ở cột đầu footer" },
       { "key": "field_footer_copyright", "label": "Copyright", "name": "footer_copyright", "type": "text", "placeholder": "© 2024 Tên Công Ty. All rights reserved.", "instructions": "Để trống để tự động điền theo năm hiện tại" },
@@ -50,7 +78,8 @@
     ],
     "location": [[{ "param": "options_page", "operator": "==", "value": "site-settings" }]],
     "menu_order": 0, "position": "normal", "style": "default",
-    "label_placement": "top", "instruction_placement": "label", "active": true
+    "label_placement": "top", "instruction_placement": "label", "active": true,
+    "show_in_rest": true
   },
 
   {
@@ -428,6 +457,7 @@
     ],
     "location": [[{ "param": "post_type", "operator": "==", "value": "page" }]],
     "menu_order": 1, "position": "normal", "style": "default",
-    "label_placement": "top", "instruction_placement": "label", "active": true
+    "label_placement": "top", "instruction_placement": "label", "active": true,
+    "show_in_rest": true
   }
 ]

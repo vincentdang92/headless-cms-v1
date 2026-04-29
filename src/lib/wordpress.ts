@@ -13,7 +13,9 @@ const API_URL = process.env.WORDPRESS_API_URL!
 const WP_API_SECRET = process.env.WP_API_SECRET
 const IS_DEV = process.env.NODE_ENV === 'development'
 
-const WP_TIMEOUT_MS = 5_000
+// Dev: timeout dài hơn vì shared hosting có thể cold-start 5-15s
+// Prod: 8s đủ cho server-to-server warm
+const WP_TIMEOUT_MS = IS_DEV ? 15_000 : 8_000
 
 function wpHeaders(): HeadersInit {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
@@ -192,8 +194,109 @@ export function getPostCategories(post: WPPost): WPCategory[] {
   return (terms[0] as WPCategory[]) ?? []
 }
 
+export function getPostTags(post: WPPost): WPTag[] {
+  const terms = post._embedded?.['wp:term']
+  if (!terms) return []
+  return (terms[1] as WPTag[]) ?? []
+}
+
 export function getPostAuthor(post: WPPost): string {
   return post._embedded?.author?.[0]?.name ?? 'Admin'
+}
+
+export function getPostAuthorAvatar(post: WPPost): string {
+  const avatars = post._embedded?.author?.[0]?.avatar_urls
+  return avatars?.['96'] ?? avatars?.['48'] ?? ''
+}
+
+export async function getRelatedPosts(
+  categoryIds: number[],
+  excludeId: number,
+  count = 3,
+  locale?: string
+): Promise<WPPost[]> {
+  if (!categoryIds.length) return []
+  const query = new URLSearchParams({
+    categories: categoryIds.join(','),
+    exclude: String(excludeId),
+    per_page: String(count),
+    _embed: '1',
+    orderby: 'date',
+    order: 'desc',
+  })
+  if (locale && locale !== 'vi') query.set('lang', locale)
+  try {
+    const url = `${API_URL}/wp/v2/posts?${query}`
+    const res = await devLog(url, 'GET', () =>
+      fetch(url, { next: { revalidate: 3600 }, headers: wpHeaders(), signal: AbortSignal.timeout(WP_TIMEOUT_MS) })
+    )
+    if (!res.ok) return []
+    return res.json()
+  } catch {
+    return []
+  }
+}
+
+// ─── Adjacent Posts (Prev / Next) ────────────────────────────────────────────
+
+export interface WPAdjacentPost {
+  id: number
+  slug: string
+  title: string
+}
+
+export async function getAdjacentPosts(
+  postDate: string,
+  locale?: string
+): Promise<{ prev: WPAdjacentPost | null; next: WPAdjacentPost | null }> {
+  const fields = '_fields=id,slug,title'
+  const prevUrl = appendLang(`${API_URL}/wp/v2/posts?before=${encodeURIComponent(postDate)}&orderby=date&order=desc&per_page=1&${fields}`, locale)
+  const nextUrl = appendLang(`${API_URL}/wp/v2/posts?after=${encodeURIComponent(postDate)}&orderby=date&order=asc&per_page=1&${fields}`, locale)
+
+  try {
+    const [prevRes, nextRes] = await Promise.all([
+      devLog(prevUrl, 'GET', () => fetch(prevUrl, { next: { revalidate: 3600 }, headers: wpHeaders(), signal: AbortSignal.timeout(WP_TIMEOUT_MS) })),
+      devLog(nextUrl, 'GET', () => fetch(nextUrl, { next: { revalidate: 3600 }, headers: wpHeaders(), signal: AbortSignal.timeout(WP_TIMEOUT_MS) })),
+    ])
+    const [prevData, nextData]: [any[], any[]] = await Promise.all([
+      prevRes.ok ? prevRes.json() : [],
+      nextRes.ok ? nextRes.json() : [],
+    ])
+    const map = (p: any): WPAdjacentPost | null =>
+      p ? { id: p.id, slug: p.slug, title: p.title.rendered.replace(/<[^>]*>/g, '') } : null
+    return { prev: map(prevData[0] ?? null), next: map(nextData[0] ?? null) }
+  } catch {
+    return { prev: null, next: null }
+  }
+}
+
+// ─── Reviews ─────────────────────────────────────────────────────────────────
+// Dùng WP native comments + comment_karma làm rating (1-5).
+// WooCommerce-compatible: cùng DB field, chỉ cần đổi comment_type khi mở rộng.
+
+export interface WPReview {
+  id: number
+  author: string
+  content: string
+  rating: number
+  date: string
+}
+
+export async function getPostReviews(postId: number): Promise<WPReview[]> {
+  const url = `${API_URL}/headless/v1/reviews/${postId}`
+  try {
+    const res = await devLog(url, 'GET', () =>
+      fetch(url, {
+        next: { revalidate: 300, tags: [`reviews-${postId}`] },
+        headers: wpHeaders(),
+        signal: AbortSignal.timeout(WP_TIMEOUT_MS),
+      })
+    )
+    if (!res.ok) return []
+    return res.json()
+  } catch {
+    return []
+  }
 }
 
 // ─── Nav Menus ────────────────────────────────────────────────────────────────

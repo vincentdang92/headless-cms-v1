@@ -6,6 +6,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
 import { Link } from '@/i18n/navigation'
 import type { HeroBlock, HeroSlide } from './types'
+import type { SiteSettings } from '@/types/site-settings'
 
 // ─── Shared helpers ────────────────────────────────────────────────────────────
 
@@ -341,8 +342,9 @@ function HeroMinimal({ block }: { block: HeroBlock }) {
 
 // ─── Dispatcher ────────────────────────────────────────────────────────────────
 
-export default function HeroBlock({ block }: { block: HeroBlock }) {
-  switch (block.variant) {
+export default function HeroBlock({ block, settings }: { block: HeroBlock; settings: SiteSettings }) {
+  const variant = block.variant ?? settings.heroVariant ?? 'split'
+  switch (variant) {
     case 'centered':  return <HeroCentered  block={block} />
     case 'image_bg':  return <HeroImageBg   block={block} />
     case 'minimal':   return <HeroMinimal   block={block} />

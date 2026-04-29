@@ -26,8 +26,24 @@ export function extractYoastSeo(post: WPPost | WPPage): UnifiedSeoData {
 }
 
 export function extractRankMathSeo(post: WPPost | WPPage): UnifiedSeoData {
-  const rm = post.rank_math_seo
+  // Thử theo thứ tự ưu tiên: custom field > rank_math > rank_math_seo
+  const rm = ('rm_head' in post && post.rm_head)
+    || ('rank_math' in post && post.rank_math)
+    || ('rank_math_seo' in post && post.rank_math_seo)
+    || null
   if (!rm) return {}
+
+  // og_image: RankMath trả về string URL, Yoast trả về array
+  let ogImage: UnifiedSeoData['ogImage']
+  if (rm.og_image) {
+    if (typeof rm.og_image === 'string') {
+      ogImage = { url: rm.og_image }
+    } else if (Array.isArray(rm.og_image) && rm.og_image[0]) {
+      const img = rm.og_image[0]
+      ogImage = { url: img.url, width: img.width, height: img.height }
+    }
+  }
+
   return {
     title: rm.title,
     description: rm.description,
@@ -35,12 +51,10 @@ export function extractRankMathSeo(post: WPPost | WPPage): UnifiedSeoData {
     canonical: rm.canonical_url,
     ogTitle: rm.og_title,
     ogDescription: rm.og_description,
-    ogImage: rm.og_image?.[0]
-      ? { url: rm.og_image[0].url, width: rm.og_image[0].width, height: rm.og_image[0].height }
-      : undefined,
+    ogImage,
     twitterCard: rm.twitter_card,
-    twitterTitle: rm.twitter_title,
-    twitterDescription: rm.twitter_description,
+    twitterTitle: rm.twitter_title || rm.tw_title,
+    twitterDescription: rm.twitter_description || rm.tw_description,
     schema: rm.schema,
     isNoIndex: rm.robots?.index === 'noindex',
   }

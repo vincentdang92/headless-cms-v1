@@ -30,14 +30,15 @@ export default async function NewsCard({ post, featured = false }: Props) {
 
       <div className={`p-5 flex flex-col ${featured ? 'md:w-1/2 md:p-8 justify-center' : ''}`}>
         {categories.length > 0 && (
-          <span className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-2">
+          <span className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: 'var(--cp)' }}>
             {categories[0].name}
           </span>
         )}
 
         <Link href={`/tin-tuc/${post.slug}`}>
           <h2
-            className={`font-semibold text-gray-900 group-hover:text-blue-700 transition-colors line-clamp-2 mb-2 ${featured ? 'text-2xl' : 'text-base'}`}
+            className={`font-semibold text-gray-900 group-hover:opacity-80 transition-opacity line-clamp-2 mb-2 ${featured ? 'text-2xl' : 'text-base'}`}
+            style={featured ? { fontFamily: 'var(--font-heading)' } : undefined}
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
         </Link>
@@ -50,7 +51,8 @@ export default async function NewsCard({ post, featured = false }: Props) {
           <time className="text-xs text-gray-400">{formatDate(post.date)}</time>
           <Link
             href={`/tin-tuc/${post.slug}`}
-            className="text-xs font-medium text-blue-700 hover:underline"
+            className="text-xs font-medium hover:underline"
+            style={{ color: 'var(--cp)' }}
           >
             {t('readMore')}
           </Link>
